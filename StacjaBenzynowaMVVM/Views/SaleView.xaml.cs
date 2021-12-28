@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace StacjaBenzynowa
+namespace StacjaBenzynowa.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SaleView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SaleView : UserControl
     {
-        public MainWindow()
+        public SaleView()
         {
             InitializeComponent();
         }

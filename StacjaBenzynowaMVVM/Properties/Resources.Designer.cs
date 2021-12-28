@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace StacjaBenzynowa.Properties
+namespace StacjaBenzynowaMVVM.Properties
 {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -43,7 +43,7 @@ namespace StacjaBenzynowa.Properties
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StacjaBenzynowa.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StacjaBenzynowaMVVM.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
