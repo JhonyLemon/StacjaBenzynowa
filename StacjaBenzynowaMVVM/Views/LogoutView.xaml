@@ -7,6 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Height="48" FontSize="26" TextAlignment="Center" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,1,0,2">Czy jesteś pewien że chcesz się wylogować</TextBlock>
+        <Button x:Name="LogOut" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="160" Height="50" FontSize="24" Grid.ColumnSpan="2">Wyloguj</Button>
+        <Button x:Name="Return" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="160" Height="50" FontSize="24">Powrót</Button>
     </Grid>
 </UserControl>

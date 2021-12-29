@@ -1,13 +1,12 @@
-﻿using Caliburn.Micro;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StacjaBenzynowa.ViewModels
+namespace StacjaBenzynowaMVVM.EventModels
 {
-    class AddClientViewModel:Screen
+    class LogOutOnEvent
     {
     }
 }

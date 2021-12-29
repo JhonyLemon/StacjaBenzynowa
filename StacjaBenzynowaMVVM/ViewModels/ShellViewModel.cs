@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>
     {
 
         private Visibility _menuVisibility= Visibility.Hidden;
@@ -22,6 +22,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private LogoutViewModel _logoutViewModel;
         private DeliveriesViewModel _deliveriesViewModel;
         private IEventAggregator _eventAggregator;
+        private Screen previouslyActive;
         public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel)
         {
             _loginViewModel = loginViewModel;
@@ -46,8 +47,41 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void Handle(LogOnEvent message)
         {
+            previouslyActive = (Screen)ActiveItem;
             ActivateItem(_saleViewModel);
             MenuVisibility = Visibility.Visible;
+        }
+
+        public void Sale()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_saleViewModel);
+        }
+        public void AddClient()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_addClientViewModel);
+        }
+        public void Logout()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_logoutViewModel);
+        }
+        public void Deliveries()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_deliveriesViewModel);
+        }
+
+        public void Handle(LogOutOnEvent message)
+        {
+            MenuVisibility = Visibility.Hidden;
+            ActivateItem(_loginViewModel);
+        }
+
+        public void Handle(ReturnOnEvent message)
+        {
+            ActivateItem(previouslyActive);
         }
     }
 }
