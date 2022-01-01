@@ -7,6 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="3" Grid.Row="0" FontSize="48">Dostawy</TextBlock>
+        <ListBox x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3">
+            <ListBoxItem>
+            </ListBoxItem>
+        </ListBox>
+        <TextBlock Grid.Column="2" Grid.Row="1" FontSize="18" Margin="20 0 0 0" TextAlignment="Center">Dostawca</TextBlock>
+        <TextBox Grid.Column="2" Grid.Row="2" FontSize="18" Margin="20 0 0 0"></TextBox>
+        <TextBlock Grid.Column="2" Grid.Row="3" FontSize="18" Margin="10 0 0 0">Ilość</TextBlock>
     </Grid>
 </UserControl>

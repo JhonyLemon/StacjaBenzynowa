@@ -48,6 +48,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public void Handle(LogOnEvent message)
         {
             previouslyActive = (Screen)ActiveItem;
+            DeactivateItem(_loginViewModel, false);
             ActivateItem(_saleViewModel);
             MenuVisibility = Visibility.Visible;
         }
