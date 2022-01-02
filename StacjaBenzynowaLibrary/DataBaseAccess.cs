@@ -30,7 +30,7 @@ namespace StacjaBenzynowaLibrary
                 {
                     command.CommandText =statement;
                     command.CommandType = CommandType.Text;
-                        foreach(KeyValuePair<string,string> valuePair in parameters)
+                    foreach (KeyValuePair<string, string> valuePair in parameters)
                         {
                             command.Parameters.AddWithValue(valuePair.Key, valuePair.Value);
                         }
@@ -62,7 +62,7 @@ namespace StacjaBenzynowaLibrary
                     command.CommandType = CommandType.Text;
                     foreach (KeyValuePair<string, string> valuePair in parameters)
                     {
-                            command.Parameters.AddWithValue(valuePair.Key, valuePair.Value);
+                        command.Parameters.AddWithValue(valuePair.Key, valuePair.Value);
                     }
                     i = command.ExecuteNonQuery();
                 }

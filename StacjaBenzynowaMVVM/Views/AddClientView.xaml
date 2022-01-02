@@ -7,6 +7,39 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        
+        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                   HorizontalAlignment="Center" FontSize="48" Margin="0 0 0 40">
+            Dodawanie klienta
+        </TextBlock>
+
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14">
+            Imię
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="ClientName"></TextBox>
+
+        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
+            Nazwisko
+        </TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="0 0 0 20" FontSize="18" x:Name="ClientSurname"></TextBox>
+
+        <Button Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" 
+                x:Name="AddClient" Padding="50 5" FontSize="18">Dodaj klienta</Button>
     </Grid>
 </UserControl>
