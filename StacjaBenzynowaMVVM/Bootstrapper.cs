@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using StacjaBenzynowaMVVM.Helpers;
 using StacjaBenzynowaMVVM.Helpers.Classes;
-using StacjaBenzynowaMVVM.Helpers.Interfaces;
 using StacjaBenzynowaMVVM.ViewModels;
 using System;
 using System.Collections.Generic;

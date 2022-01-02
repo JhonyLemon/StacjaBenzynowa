@@ -8,8 +8,48 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Helpers
 {
-    public class ProductsListHelper
+    public class DatabaseClassesHelper
     {
+        public static Client GetClientClass(List<Dictionary<string, string>> client)
+        {
+            Client Client = new Client();
+            if (client.Count == 1)
+            {
+                foreach (Dictionary<string, string> c in client)
+                {
+                    foreach (KeyValuePair<string, string> valuePair in c)
+                    {
+                        if (valuePair.Value != "")
+                            switch (valuePair.Key)
+                            {
+                                case "ID_KLIENTA":
+                                    {
+                                        Client.ClientID = Convert.ToInt32(valuePair.Value);
+                                        break;
+                                    }
+                                case "IMIE":
+                                    {
+                                        Client.FirstName = valuePair.Value;
+                                        break;
+                                    }
+                                case "NAZWISKO":
+                                    {
+                                        Client.SurName = valuePair.Value;
+                                        break;
+                                    }
+                                case "NIP":
+                                    {
+                                        Client.NIP = valuePair.Value;
+                                        break;
+                                    }
+                            }
+                    }
+                }
+                return Client;
+            }
+            return null;
+        }
+
         public static BindingList<Product> GetProductsList(List<Dictionary<string, string>> products)
         {
             BindingList<Product> Products = new BindingList<Product>();
@@ -54,6 +94,11 @@ namespace StacjaBenzynowaMVVM.Helpers
                         case "ID_DOSTAWCY":
                             {
                                 Product.SupplierID = Convert.ToInt32(valuePair.Value);
+                                break;
+                            }
+                        case "RABAT":
+                            {
+                                Product.Discount = Convert.ToDouble(valuePair.Value);
                                 break;
                             }
                     }

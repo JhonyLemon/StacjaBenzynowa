@@ -49,6 +49,15 @@ namespace StacjaBenzynowaMVVM.Models
             get { return _price; }
             set { _price = value; }
         }
+
+        private double _discount;
+
+        public double Discount
+        {
+            get { return _discount; }
+            set { _discount = value; }
+        }
+
         private DateTime _deliveryDate;
 
         public DateTime DeliveryDate
@@ -71,6 +80,7 @@ namespace StacjaBenzynowaMVVM.Models
             Price = product.Price;
             DeliveryDate = product.DeliveryDate;
             ExpirationDate = product.ExpirationDate;
+            Discount = product.Discount;
         }
 
         public DateTime ExpirationDate

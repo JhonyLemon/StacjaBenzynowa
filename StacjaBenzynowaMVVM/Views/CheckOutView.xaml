@@ -7,6 +7,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="3" Grid.Row="0" FontSize="48">Sprzedaż</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">Kwota:</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="2" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">Rabat:</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="3" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">Razem:</TextBlock>
+        <TextBlock x:Name="Price" Grid.Column="2" Grid.Row="1" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">0.0</TextBlock>
+        <TextBlock x:Name="Discount" Grid.Column="2" Grid.Row="2" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">0.0</TextBlock>
+        <TextBlock x:Name="Sum" Grid.Column="2" Grid.Row="3" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 10 10 10">0.0</TextBlock>
+        <StackPanel Grid.Column="3" Grid.Row="4">
+            <TextBlock TextAlignment="Center" FontSize="12" Margin="0 0 0 5">Klient:</TextBlock>
+            <TextBox x:Name="Client"></TextBox>
+        </StackPanel>
+
+        <Button  x:Name="ConfirmCart" Grid.Column="3" Grid.Row="5" Margin="10 10 10 10">Zatwierdz</Button>
+        <Button  x:Name="Return" Grid.Column="3" Grid.Row="6" Margin="10 10 10 10">Powrót</Button>
+
     </Grid>
 </UserControl>

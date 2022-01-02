@@ -75,7 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EventModels\AddToCartEvent.cs" />
+    <Compile Include="EventModels\ConfirmSale.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="EventModels\LogOutOnEvent.cs" />
     <Compile Include="EventModels\ReturnOnEvent.cs" />
@@ -83,10 +83,11 @@
     <Compile Include="Helpers\Classes\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordHashHelper.cs" />
     <Compile Include="Helpers\Classes\DatabaseClassesHelper.cs" />
-    <Compile Include="Helpers\Interfaces\IDatabaseDataHelper.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ViewModels\AddClientViewModel.cs" />
+    <Compile Include="ViewModels\CheckOutViewModel.cs" />
     <Compile Include="ViewModels\DeliveriesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LogoutViewModel.cs" />

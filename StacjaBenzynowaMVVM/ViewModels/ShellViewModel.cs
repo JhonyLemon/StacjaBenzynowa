@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSale>
     {
 
         private Visibility _menuVisibility= Visibility.Hidden;
@@ -21,9 +21,10 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private AddClientViewModel _addClientViewModel;
         private LogoutViewModel _logoutViewModel;
         private DeliveriesViewModel _deliveriesViewModel;
+        private CheckOutViewModel _checkOutViewModel;
         private IEventAggregator _eventAggregator;
         private Screen previouslyActive;
-        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel)
+        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel)
         {
             _loginViewModel = loginViewModel;
             _eventAggregator = eventAggregator;
@@ -31,6 +32,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _addClientViewModel = addClientViewModel;
             _logoutViewModel = logoutViewModel;
             _deliveriesViewModel = deliveriesViewModel;
+            _checkOutViewModel = checkOutViewModel;
             _eventAggregator.Subscribe(this);
             ActivateItem(_loginViewModel);
         }
@@ -83,6 +85,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public void Handle(ReturnOnEvent message)
         {
             ActivateItem(previouslyActive);
+        }
+
+        public void Handle(ConfirmSale message)
+        {
+            ActivateItem(_checkOutViewModel);
         }
     }
 }

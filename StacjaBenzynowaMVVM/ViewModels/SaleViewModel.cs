@@ -20,10 +20,12 @@ namespace StacjaBenzynowa.ViewModels
         private int _ammount;
         private Product _product;
         private Product _cartItem;
+        private IEventAggregator _eventAggregator;
 
-        public SaleViewModel()
+        public SaleViewModel(IEventAggregator eventAggregator)
         {
-            _products = new DatabaseDataHelper().Products;
+            _products = DatabaseDataHelper.GetProducts();
+            _eventAggregator = eventAggregator;
             _cartItems = new BindingList<Product>();
         }
 
@@ -105,7 +107,7 @@ namespace StacjaBenzynowa.ViewModels
                 CartItems.Add(product);
                 Amount = 0;
                 Product = null;
-            
+            NotifyOfPropertyChange(() => CanConfirmCart);
         }
 
         public bool CanDeleteFromCart
@@ -136,6 +138,7 @@ namespace StacjaBenzynowa.ViewModels
                     break;
                 }
             }
+            NotifyOfPropertyChange(() => CanConfirmCart);
         }
 
         public bool CanChangeAmount
@@ -181,6 +184,21 @@ namespace StacjaBenzynowa.ViewModels
                     break;
                 }
             }
+        }
+
+        public bool CanConfirmCart
+        {
+            get
+            {
+                bool check = false;
+                if (CartItems.Count>0)
+                check = true;
+                return check;
+            }
+        }
+        public void ConfirmCart()
+        {
+            _eventAggregator.PublishOnUIThread(new ConfirmSale(CartItems));
         }
 
     }
