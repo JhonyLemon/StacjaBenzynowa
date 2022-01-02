@@ -130,7 +130,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void ConfirmCart()
         {
-
+            DatabaseDataHelper.SetSale(ClientClass, CartItems);
         }
 
         public void Return()

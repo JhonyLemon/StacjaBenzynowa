@@ -142,6 +142,29 @@ namespace StacjaBenzynowa.ViewModels
             NotifyOfPropertyChange(() => CanConfirmCart);
         }
 
+        public void ClearCart()
+        {
+            int i = 0;
+            Product product = null;
+            foreach (Product c in CartItems)
+            {
+                foreach (Product p in Products)
+                {
+                    if (p.ProductID == c.ProductID)
+                    {
+                        i = Products.IndexOf(p);
+                        product = new Product(Products.ElementAt(i));
+                        Products.RemoveAt(i);
+                        product.Amount += c.Amount;
+                        Products.Insert(i, product);
+                        break;
+                    }
+                }
+            }
+            CartItems.Clear();
+            NotifyOfPropertyChange(() => CanConfirmCart);
+        }
+
         public bool CanChangeAmount
         {
             get 

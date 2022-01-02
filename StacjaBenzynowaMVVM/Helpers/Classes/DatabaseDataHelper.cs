@@ -39,6 +39,20 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return client;
         }
 
+        public static bool SetSale(Client client, BindingList<Product> products)
+        {
+            //zapis do bazy danych
+            return true;
+        }
+
+        public static List<Dictionary<string, string>> GetLogData(string userName, string password)
+        {
+            List<string> values = new List<string> { "ID_PRACOWNIKA" };
+            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("@login", userName), new KeyValuePair<string, string>("@password", PasswordHashHelper.HashPassword(password)) };
+            List<Dictionary<string, string>> answer = DataBaseAccess.GetImportedData("SELECT ID_PRACOWNIKA FROM PRACOWNICY WHERE LOGIN=@login AND HASLO=@password", parameters, values);
+            return answer;
+        }
+
     }
 
 }

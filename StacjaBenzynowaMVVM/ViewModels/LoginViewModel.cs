@@ -2,6 +2,7 @@
 using StacjaBenzynowaLibrary;
 using StacjaBenzynowaMVVM.EventModels;
 using StacjaBenzynowaMVVM.Helpers;
+using StacjaBenzynowaMVVM.Helpers.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,9 +71,7 @@ namespace StacjaBenzynowa.ViewModels
 
         public void LogIn()
         {
-            List<string> values = new List<string> { "ID_PRACOWNIKA" };
-            List<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("@login", UserName), new KeyValuePair<string, string>("@password", PasswordHashHelper.HashPassword(Password)) };
-            List<Dictionary<string, string>> answer = DataBaseAccess.GetImportedData("SELECT ID_PRACOWNIKA FROM PRACOWNICY WHERE LOGIN=@login AND HASLO=@password", parameters, values);
+            List<Dictionary<string, string>> answer = DatabaseDataHelper.GetLogData(UserName, Password);
             if (answer.Count == 0)
             {
                 ErrorMessage = "Błędny login lub hasło";

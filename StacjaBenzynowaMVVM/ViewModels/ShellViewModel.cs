@@ -57,6 +57,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void Sale()
         {
+            ClearCart();
             previouslyActive = (Screen)ActiveItem;
             ActivateItem(_saleViewModel);
         }
@@ -93,6 +94,12 @@ namespace StacjaBenzynowaMVVM.ViewModels
             previouslyActive = (Screen)ActiveItem;
             ActivateItem(_checkOutViewModel);
             _checkOutViewModel.CartItems = message.cartItems;
+        }
+
+        public void ClearCart()
+        {
+            if (_saleViewModel.CartItems != null)
+                _saleViewModel.ClearCart();
         }
     }
 }
