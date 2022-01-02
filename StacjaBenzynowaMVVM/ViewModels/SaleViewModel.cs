@@ -98,11 +98,12 @@ namespace StacjaBenzynowa.ViewModels
 
         public void AddToCart()
         {
-            Product product = new Product(Product);
             int i = Products.IndexOf(Product);
             Product.Amount -= Amount;
+            Product product = new Product(Product);
             Products.Remove(Product);
             Products.Insert(i, product);
+            product = new Product(product);
             product.Amount = Amount;
                 CartItems.Add(product);
                 Amount = 0;

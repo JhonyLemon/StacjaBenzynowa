@@ -78,6 +78,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void Handle(LogOutOnEvent message)
         {
+            previouslyActive = (Screen)ActiveItem;
             MenuVisibility = Visibility.Hidden;
             ActivateItem(_loginViewModel);
         }
@@ -89,7 +90,9 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void Handle(ConfirmSale message)
         {
+            previouslyActive = (Screen)ActiveItem;
             ActivateItem(_checkOutViewModel);
+            _checkOutViewModel.CartItems = message.cartItems;
         }
     }
 }

@@ -89,9 +89,13 @@ namespace StacjaBenzynowaMVVM.Models
             set { _expirationDate = value; }
         }
 
-        public string NameAndAmount
+        public double FinalPrice
         {
-            get { return Name + " " + Amount; }
+            get { return Price * (1 - Discount)*Amount; }
+        }
+        public double PricePerOne
+        {
+            get { return Price * (1 - Discount); }
         }
 
     }

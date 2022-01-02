@@ -28,32 +28,32 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+
+
+
+
         <TextBlock Grid.Column="3" Grid.Row="0" FontSize="48">Sprzedaż</TextBlock>
-        <ListBox ItemsSource="{Binding Products}" SelectedItem="{Binding Product}" x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="RightClickAddToCart" Header="Dodaj"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding NameAndAmount}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <ListBox ItemsSource="{Binding CartItems}" SelectedItem="{Binding CartItem}" x:Name="Cart" Grid.Row="1" Grid.Column="4" MinHeight="200" MinWidth="150" Grid.RowSpan="3">
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem x:Name="RightClickDeleteFromCart" Header="Usuń"/>
-                    <MenuItem Header="Zmień ilość"/>
-                </ContextMenu>
-            </ListBox.ContextMenu>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding NameAndAmount}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+
+        <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding Product}" x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3" MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn Header="Cena jednostkowa" DisplayMemberBinding="{Binding PricePerOne}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView ItemsSource="{Binding CartItems}" SelectedItem="{Binding CartItem}" x:Name="Cart" Grid.Row="1" Grid.Column="4" MinHeight="200" MinWidth="150" Grid.RowSpan="3"  MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding FinalPrice}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
         <TextBlock Grid.Column="3" Grid.Row="4" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center">Ilość:</TextBlock>
         <TextBox x:Name="Amount" Grid.Row="5" Grid.Column="3" Margin="0 10 0 0"></TextBox>
         <Button  x:Name="AddToCart" Grid.Column="1" Grid.Row="6" Margin="10 10 10 10">Dodaj</Button>

@@ -33,6 +33,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 values = new List<string> { "PUNKTY" };
                 parameters = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("@id", cardCode) };
                 answer = DataBaseAccess.GetImportedData("SELECT SUM(IFNULL(PUNKTY,0)-(IFNULL(RABAT,0)*100)) AS PUNKTY FROM ZAMOWIENIA WHERE ID_KLIENTA=@id", parameters, values);
+                if(answer.Count!=0)
                 client.Points = Convert.ToInt32(answer[0]["PUNKTY"]);
             }
             return client;

@@ -11,10 +11,16 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class CheckOutViewModel:Screen, IHandle<ConfirmSale>
+    class CheckOutViewModel:Screen
     {
         private BindingList<Product> _cartItems;
         private Client _clientClass;
+        private IEventAggregator _eventAggregator;
+
+        public CheckOutViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
 
         public Client ClientClass
         {
@@ -25,13 +31,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public BindingList<Product> CartItems 
         {
             get { return _cartItems; }
-            set { _cartItems = value; }
-        }
-
-        public void Handle(ConfirmSale message)
-        {
-            CartItems = message.cartItems;
-            RecalculatePrice();
+            set 
+            {
+                _cartItems = value;
+                RecalculatePrice();
+            }
         }
 
         private double _discount;
@@ -85,33 +89,33 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void RecalculatePrice()
         {
-            double temp2 = 0;
-            double temp = 0;
+            double withOutDiscount = 0;
+            double withDiscount = 0;
             foreach (Product p in CartItems)
             {
-                temp += p.Price * p.Discount * p.Amount;
-                temp2 += p.Price * p.Amount;
+                withDiscount += p.Price * (1-p.Discount) * p.Amount;
+
+                withOutDiscount += p.Price * p.Amount;
             }
             if(ClientClass!=null && ClientClass.Points>=100)
             {
-                temp = temp * 0.9;
+                withDiscount = withDiscount * 0.9;
             }
-            Discount = temp2 - temp;
-            Price = temp2;
-            Sum = temp;
+            Discount = withOutDiscount - withDiscount;
+            Price = withOutDiscount;
+            Sum = withDiscount;
         }
 
         public bool CanConfirmCart
         {
             get
             {
-                bool check = false;
-                if (Client.Length == 16)
+                bool check = true;
+                if (Client!=null && Client.Length == 16)
                 {
                     ClientClass = DatabaseDataHelper.GetClient(Client.Replace('0', ' ').Trim());
                     if (ClientClass != null)
                     {
-                        check = true;
                         RecalculatePrice();
                     }
                 }
@@ -129,6 +133,9 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         }
 
-
+        public void Return()
+        {
+            _eventAggregator.PublishOnUIThread(new ReturnOnEvent());
+        }
     }
 }
