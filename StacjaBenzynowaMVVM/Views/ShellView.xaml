@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StacjaBenzynowaMVVM.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="450" Width="800">
+        Title="ShellView" Height="450" Width="800" WindowState="Maximized">
     <DockPanel>
         <Menu DockPanel.Dock="Top" Visibility="{Binding Path=MenuVisibility,Mode=OneWay}">
             <MenuItem Header="Sprzedaż" x:Name="Sale"/>

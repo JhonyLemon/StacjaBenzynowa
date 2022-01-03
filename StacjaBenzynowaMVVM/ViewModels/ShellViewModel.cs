@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSale>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSale>,IHandle<SoldOnEvent>
     {
 
         private Visibility _menuVisibility= Visibility.Hidden;
@@ -93,6 +93,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             previouslyActive = (Screen)ActiveItem;
             ActivateItem(_checkOutViewModel);
+            _checkOutViewModel.Employee = _loginViewModel.Employee;
             _checkOutViewModel.CartItems = message.cartItems;
         }
 
@@ -100,6 +101,12 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             if (_saleViewModel.CartItems != null)
                 _saleViewModel.ClearCart();
+        }
+
+        public void Handle(SoldOnEvent message)
+        {
+            _saleViewModel.CartItems.Clear();
+            ActivateItem(_saleViewModel);
         }
     }
 }

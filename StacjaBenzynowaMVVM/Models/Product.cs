@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Product
+    public class Product: INotifyCollectionChanged
     {
 
 
@@ -16,7 +17,10 @@ namespace StacjaBenzynowaMVVM.Models
         public int ProductID
         {
             get { return _productID; }
-            set { _productID = value; }
+            set { 
+                _productID = value; 
+                
+            }
         }
 
         private int _supplierID;
@@ -66,6 +70,8 @@ namespace StacjaBenzynowaMVVM.Models
             set { _deliveryDate = value; }
         }
         private DateTime _expirationDate;
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public Product()
         {

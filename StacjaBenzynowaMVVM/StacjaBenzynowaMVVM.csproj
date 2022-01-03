@@ -93,11 +93,13 @@
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="EventModels\LogOutOnEvent.cs" />
     <Compile Include="EventModels\ReturnOnEvent.cs" />
+    <Compile Include="EventModels\SoldOnEvent.cs" />
     <Compile Include="Helpers\Classes\DatabaseDataHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordHashHelper.cs" />
     <Compile Include="Helpers\Classes\DatabaseClassesHelper.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ViewModels\AddClientViewModel.cs" />

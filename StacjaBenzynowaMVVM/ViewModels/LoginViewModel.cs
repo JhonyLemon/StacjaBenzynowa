@@ -3,6 +3,7 @@ using StacjaBenzynowaLibrary;
 using StacjaBenzynowaMVVM.EventModels;
 using StacjaBenzynowaMVVM.Helpers;
 using StacjaBenzynowaMVVM.Helpers.Classes;
+using StacjaBenzynowaMVVM.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace StacjaBenzynowa.ViewModels
 {
     class LoginViewModel:Screen
     {
+        public Employee Employee { get; set; }
         private string _userName;
         private string _password;
         private string _errorMessage;
@@ -71,8 +73,8 @@ namespace StacjaBenzynowa.ViewModels
 
         public void LogIn()
         {
-            List<Dictionary<string, string>> answer = DatabaseDataHelper.GetLogData(UserName, Password);
-            if (answer.Count == 0)
+            Employee= DatabaseDataHelper.GetEmployee(UserName, Password);
+            if (Employee == null)
             {
                 ErrorMessage = "Błędny login lub hasło";
             }

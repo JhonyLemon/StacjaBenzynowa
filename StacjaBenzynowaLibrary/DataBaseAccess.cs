@@ -20,7 +20,7 @@ namespace StacjaBenzynowaLibrary
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
-        public static List<Dictionary<string, string>> GetImportedData(string statement, List<KeyValuePair<string, string>> parameters, List<string> values)
+        public static List<Dictionary<string, string>> GetImportedData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
         {
             List<Dictionary<string, string>> imported = new List<Dictionary<string, string>>();
             using (connection = new SQLiteConnection(LoadConnectionString()))
@@ -30,18 +30,18 @@ namespace StacjaBenzynowaLibrary
                 {
                     command.CommandText =statement;
                     command.CommandType = CommandType.Text;
-                    foreach (KeyValuePair<string, string> valuePair in parameters)
+                    foreach (KeyValuePair<KeyValuePair<string, string>, string> valuePair in parameters)
                         {
-                            command.Parameters.AddWithValue(valuePair.Key, valuePair.Value);
+                            command.Parameters.AddWithValue(valuePair.Key.Value, valuePair.Value);
                         }
                     SQLiteDataReader r = command.ExecuteReader();
                     while (r.Read())
                     {
                         Dictionary<string, string> map = new Dictionary<string, string>();
                         // imported.Add(Convert.ToString(r["IMIE"]));
-                        foreach (string value in values)
+                        foreach (KeyValuePair<KeyValuePair<string, string>, string> value in parameters)
                         {
-                            map.Add(value, Convert.ToString(r[value]));
+                            map.Add(value.Key.Key, Convert.ToString(r[value.Key.Key]));
                         }
                         imported.Add(map);
                     }
@@ -50,9 +50,9 @@ namespace StacjaBenzynowaLibrary
             return imported;
         }
 
-        public static int SetData(string statement, List<KeyValuePair<string, string>> parameters)
+        public static long SetData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
         {
-            int i = 0;
+            long rowID;
             using (connection = new SQLiteConnection(LoadConnectionString()))
             {
                 connection.Open();
@@ -60,14 +60,33 @@ namespace StacjaBenzynowaLibrary
                 {
                     command.CommandText = statement;
                     command.CommandType = CommandType.Text;
-                    foreach (KeyValuePair<string, string> valuePair in parameters)
+                    foreach (KeyValuePair<KeyValuePair<string, string>, string> valuePair in parameters)
                     {
-                        command.Parameters.AddWithValue(valuePair.Key, valuePair.Value);
+                        command.Parameters.AddWithValue(valuePair.Key.Value, valuePair.Value);
                     }
-                    i = command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
+                    rowID = connection.LastInsertRowId;
                 }
             }
-            return i;
+            return rowID;
+        }
+        public static long SetDataTransaction(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
+        {
+            using (connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                        using (var command = connection.CreateCommand())
+                        {
+
+                            command.ExecuteNonQuery();
+                        }
+
+                    transaction.Commit();
+                }
+            }
+            return 0;
         }
     }
 }

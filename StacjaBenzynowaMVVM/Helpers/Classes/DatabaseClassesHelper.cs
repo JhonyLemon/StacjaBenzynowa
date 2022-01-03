@@ -107,5 +107,44 @@ namespace StacjaBenzynowaMVVM.Helpers
             }
             return Products;
         }
+
+        public static Employee GetEmployee(List<Dictionary<string, string>> data)
+        {
+            Employee employee = new Employee();
+            foreach (Dictionary<string, string> d in data)
+            {
+                foreach (KeyValuePair<string, string> valuePair in d)
+                {
+                    if (valuePair.Value != "")
+                        switch (valuePair.Key)
+                        {
+                            case "NAZWISKO":
+                                {
+                                    employee.SurName = valuePair.Value;
+                                    break;
+                                }
+                            case "IMIE":
+                                {
+                                    employee.FirstName = valuePair.Value;
+                                    break;
+                                }
+                            case "ID_PRACOWNIKA":
+                                {
+                                    employee.EmployeeID=Convert.ToInt32(valuePair.Value);
+                                    break;
+                                }
+                            case "POZYCJA":
+                                {
+                                    employee.Position = valuePair.Value;
+                                    break;
+                                }
+                        }
+                }
+            }
+            if (employee.Equals(new Employee()))
+                return null;
+            else
+                return employee;
+        }
     }
 }

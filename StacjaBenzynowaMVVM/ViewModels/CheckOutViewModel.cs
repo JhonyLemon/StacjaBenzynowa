@@ -16,6 +16,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private BindingList<Product> _cartItems;
         private Client _clientClass;
         private IEventAggregator _eventAggregator;
+        private Employee _employee;
+
 
         public CheckOutViewModel(IEventAggregator eventAggregator)
         {
@@ -26,6 +28,12 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get { return _clientClass; }
             set { _clientClass = value; }
+        }
+
+        public Employee Employee
+        {
+            get { return _employee; }
+            set { _employee = value; }
         }
 
         public BindingList<Product> CartItems 
@@ -97,7 +105,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
                 withOutDiscount += p.Price * p.Amount;
             }
-            if(ClientClass!=null && ClientClass.Points>=100)
+            if(ClientClass!=null && ClientClass.Points>=10 && withDiscount>=200)
             {
                 withDiscount = withDiscount * 0.9;
             }
@@ -130,7 +138,9 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void ConfirmCart()
         {
-            DatabaseDataHelper.SetSale(ClientClass, CartItems);
+            DatabaseDataHelper.SetSale(ClientClass, CartItems,Employee,Sum);
+            Client = "";
+            _eventAggregator.PublishOnUIThread(new SoldOnEvent());
         }
 
         public void Return()
