@@ -40,10 +40,10 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             List<Dictionary<string, string>> answer = DataBaseAccess.GetImportedData("SELECT * FROM KLIENCI WHERE ID_KLIENTA=@id", 
                 new List<KeyValuePair<KeyValuePair<string, string>, string>>
                 {
-                    new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA",""),""),
+                    new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA","@id"),cardCode),
                     new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
                     new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
-                    new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP","@id"),cardCode)
+                    new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP",""),"")
                 });
             client= DatabaseClassesHelper.GetClientClass(answer);
             if(client!=null)

@@ -38,10 +38,16 @@ namespace StacjaBenzynowaLibrary
                     while (r.Read())
                     {
                         Dictionary<string, string> map = new Dictionary<string, string>();
-                        // imported.Add(Convert.ToString(r["IMIE"]));
                         foreach (KeyValuePair<KeyValuePair<string, string>, string> value in parameters)
                         {
-                            map.Add(value.Key.Key, Convert.ToString(r[value.Key.Key]));
+                            try
+                            {
+                                map.Add(value.Key.Key, Convert.ToString(r[value.Key.Key]));
+                            }
+                            catch(Exception e)
+                            {
+
+                            }
                         }
                         imported.Add(map);
                     }
