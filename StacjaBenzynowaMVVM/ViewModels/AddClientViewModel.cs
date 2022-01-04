@@ -16,6 +16,17 @@ namespace StacjaBenzynowa.ViewModels
         private string _clientName = "";
         private string _clientSurname = "";
         private string _clientNIP = "";
+        private string _message;
+
+        public string Message
+        {
+            get { return _message; }
+            set 
+            { 
+                _message = value;
+                NotifyOfPropertyChange(() => Message);
+            }
+        }
 
         public string ClientNIP
         {
@@ -54,6 +65,7 @@ namespace StacjaBenzynowa.ViewModels
         public bool CanAddClient
         {
             get{
+                Message = "";
                 if (Regex.IsMatch(ClientName, @"^[a-zA-Z]+$") == true && Regex.IsMatch(ClientSurname, @"^[a-zA-Z]+$") == true && 
                     Regex.IsMatch(ClientNIP, @"^[0-9]+$") == true && ClientNIP.Length == 10)
                     return true;
@@ -64,7 +76,13 @@ namespace StacjaBenzynowa.ViewModels
 
         public void AddClient()
         {
-            DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP);
+            if(DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP) == 0)
+            {
+                ClientName = "";
+                ClientSurname = "";
+                ClientNIP = "";
+                Message = "Klient zostal dodany do bazy danych";
+            }
         }
     }
 }

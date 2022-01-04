@@ -10,10 +10,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         
         
-        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+        <TextBlock Grid.Row="0" Grid.Column="1"
                    HorizontalAlignment="Center" FontSize="48" Margin="0 0 0 40">
             Dodawanie klienta
         </TextBlock>
@@ -45,8 +45,11 @@
             NIP
         </TextBlock>
         <TextBox Grid.Row="6" Grid.Column="1" Margin="0 0 0 20" FontSize="18" x:Name="ClientNIP"></TextBox>
+
+        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Row="7" Grid.Column="1" FontSize="14" 
+                   Foreground="Green" HorizontalAlignment="Center"></TextBlock>
         
-        <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center" 
+        <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Center" 
                 x:Name="AddClient" Padding="50 5" FontSize="18">Dodaj klienta</Button>
     </Grid>
 </UserControl>
