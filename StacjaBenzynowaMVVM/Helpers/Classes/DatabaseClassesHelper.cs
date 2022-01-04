@@ -141,7 +141,7 @@ namespace StacjaBenzynowaMVVM.Helpers
                         }
                 }
             }
-            if (employee.Equals(new Employee()))
+            if (employee.EmployeeID==0)
                 return null;
             else
                 return employee;
