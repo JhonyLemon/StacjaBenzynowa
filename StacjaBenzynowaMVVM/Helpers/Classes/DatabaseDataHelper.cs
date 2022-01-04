@@ -66,6 +66,19 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return client;
         }
 
+        public static int SetClient(string name, string surname, string nip)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), null));
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name));
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname));
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), nip));
+            KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
+            DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+
+            return 0;
+        }
+
         public static int SetSale(Client client, BindingList<Product> products, Employee employee, double price)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
