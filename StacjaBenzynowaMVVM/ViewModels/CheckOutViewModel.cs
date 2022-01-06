@@ -4,7 +4,7 @@ using StacjaBenzynowaMVVM.Helpers.Classes;
 using StacjaBenzynowaMVVM.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 {
     class CheckOutViewModel:Screen
     {
-        private BindingList<Product> _cartItems;
+        private ObservableCollection<Product> _cartItems;
         private Client _clientClass;
         private IEventAggregator _eventAggregator;
         private Employee _employee;
@@ -36,7 +36,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             set { _employee = value; }
         }
 
-        public BindingList<Product> CartItems 
+        public ObservableCollection<Product> CartItems 
         {
             get { return _cartItems; }
             set 
@@ -107,7 +107,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
             }
             if(ClientClass!=null && ClientClass.Points>=10 && withDiscount>=200)
             {
-                withDiscount = withDiscount * 0.9;
+                ClientClass.Discount = 0.1;
+                withDiscount = withDiscount * (1-ClientClass.Discount);
             }
             Discount = withOutDiscount - withDiscount;
             Price = withOutDiscount;
@@ -138,9 +139,16 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void ConfirmCart()
         {
-            DatabaseDataHelper.SetSale(ClientClass, CartItems,Employee,Sum);
-            Client = "";
-            _eventAggregator.PublishOnUIThread(new SoldOnEvent());
+            if(ClientClass==null)
+            {
+                ClientClass = new Client();
+            }
+            if (DatabaseDataHelper.SetSale(ClientClass, CartItems, Employee, Sum) == 0)
+            {
+                Client = "";
+                _eventAggregator.PublishOnUIThread(new SoldOnEvent());
+                ClientClass = null;
+            }
         }
 
         public void Return()

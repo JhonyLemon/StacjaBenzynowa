@@ -1,6 +1,7 @@
 ﻿using StacjaBenzynowaMVVM.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -50,9 +51,9 @@ namespace StacjaBenzynowaMVVM.Helpers
             return null;
         }
 
-        public static BindingList<Product> GetProductsList(List<Dictionary<string, string>> products)
+        public static ObservableCollection<Product> GetProductsList(List<Dictionary<string, string>> products)
         {
-            BindingList<Product> Products = new BindingList<Product>();
+            ObservableCollection<Product> Products = new ObservableCollection<Product>();
             foreach(Dictionary<string,string> product in products)
             {
                 Product Product = new Product();

@@ -9,6 +9,7 @@ namespace StacjaBenzynowaMVVM.Models
     public class Client
     {
         private int _clientID;
+
         public int ClientID
         {
             get { return _clientID; }
@@ -47,5 +48,14 @@ namespace StacjaBenzynowaMVVM.Models
             set { _points = value; }
         }
 
+        public double Discount { get; set; }
+
+        public string GetClientID()
+        {
+            if (ClientID == 0)
+                return null;
+            else
+                return ClientID.ToString();
+        }
     }
 }

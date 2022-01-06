@@ -76,7 +76,7 @@ namespace StacjaBenzynowa.ViewModels
 
         public void AddClient()
         {
-            if(DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP) == 0)
+            if(DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP) == 1)
             {
                 ClientName = "";
                 ClientSurname = "";

@@ -5,13 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Product: INotifyCollectionChanged
+    public class Product: INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
 
-
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         private int _productID;
         public int ProductID
@@ -37,6 +46,7 @@ namespace StacjaBenzynowaMVVM.Models
             set 
             { 
                 _amount = value;
+                NotifyPropertyChanged();
             }
         }
         private string _name;
@@ -70,8 +80,6 @@ namespace StacjaBenzynowaMVVM.Models
             set { _deliveryDate = value; }
         }
         private DateTime _expirationDate;
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public Product()
         {

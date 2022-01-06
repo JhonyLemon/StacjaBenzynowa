@@ -56,9 +56,9 @@ namespace StacjaBenzynowaLibrary
             return imported;
         }
 
-        public static long SetData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
+        public static int SetData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
         {
-            long rowID;
+            int returnVal = 0;
             using (connection = new SQLiteConnection(LoadConnectionString()))
             {
                 connection.Open();
@@ -70,29 +70,54 @@ namespace StacjaBenzynowaLibrary
                     {
                         command.Parameters.AddWithValue(valuePair.Key.Value, valuePair.Value);
                     }
-                    command.ExecuteNonQuery();
-                    rowID = connection.LastInsertRowId;
+                    returnVal=command.ExecuteNonQuery();
+                    
                 }
             }
-            return rowID;
+            return returnVal;
         }
-        public static long SetDataTransaction(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
+        public static int SetDataTransaction(List<string> statements, List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters)
         {
+            long firstRowInserted = 0;
+            int returnVal = 0;
             using (connection = new SQLiteConnection(LoadConnectionString()))
             {
                 connection.Open();
                 using (var transaction = connection.BeginTransaction())
                 {
-                        using (var command = connection.CreateCommand())
+                    try
+                    {
+                        for (int i = 0; i < statements.Count; i++)
                         {
-
-                            command.ExecuteNonQuery();
+                            using (var command = connection.CreateCommand())
+                            {
+                                command.CommandText = statements[i];
+                                command.CommandType = CommandType.Text;
+                                foreach (KeyValuePair<KeyValuePair<string, string>, string> valuePair in parameters[i])
+                                {
+                                    if (valuePair.Key.Value == "@FIRSTINSERTEDROW")
+                                    {
+                                        command.Parameters.AddWithValue(valuePair.Key.Value, firstRowInserted);
+                                    }
+                                    else
+                                        command.Parameters.AddWithValue(valuePair.Key.Value, valuePair.Value);
+                                }
+                                command.ExecuteNonQuery();
+                                if (firstRowInserted == 0)
+                                    firstRowInserted = connection.LastInsertRowId;
+                            }
                         }
 
-                    transaction.Commit();
+                        transaction.Commit();
+                    }
+                    catch(Exception e)
+                    {
+                        transaction.Rollback();
+                        returnVal = 1;
+                    }
                 }
             }
-            return 0;
+            return returnVal;
         }
     }
 }

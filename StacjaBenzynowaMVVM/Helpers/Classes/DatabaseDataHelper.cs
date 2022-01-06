@@ -2,6 +2,7 @@
 using StacjaBenzynowaMVVM.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
     {
 
 
-        public static BindingList<Product> GetProducts()
+        public static ObservableCollection<Product> GetProducts()
         {
             return DatabaseClassesHelper.GetProductsList
                 (
@@ -68,51 +69,49 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
 
         public static int SetClient(string name, string surname, string nip)
         {
-            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
-            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), null));
-            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name));
-            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname));
-            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), nip));
-            KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
-            DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
-
-            return 0;
-        }
-
-        public static int SetSale(Client client, BindingList<Product> products, Employee employee, double price)
-        {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA","@id_pracownika"),employee.EmployeeID.ToString()),
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA","@data"),DateTime.Today.ToString())
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name),
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname),
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), nip)
             };
-
-            if (client == null)
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), null));
-            else
-            {
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), client.ClientID.ToString()));
-                if (client.Points >= 10 && price/0.9>=200)
-                    parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), (0.1).ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY", "@punkty"), (price / 100).ToString()));
-            }
             KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
-            long answer = DataBaseAccess.SetData("INSERT INTO ZAMOWIENIA (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+            return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+        }
+
+        public static int SetSale(Client client, ObservableCollection<Product> products, Employee employee, double price)
+        {
+            List<string> statements = new List<string>();
+            List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA","@id_pracownika"),employee.EmployeeID.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA","@data"),DateTime.Today.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), client.GetClientID()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), client.Discount.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY", "@punkty"), (price / 100).ToString())
+            };
+            KeyValuePair<string, string> param = InsertParametersToString(parameter);
+            string statement = "INSERT INTO ZAMOWIENIA (" + param.Key + ") VALUES (" + param.Value + ")";
+
+            statements.Add(statement);
+            parameters.Add(parameter);
 
             foreach (Product p in products)
             {
-                parameters.Clear();
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_ZAMOWIENIA", "@id_zamowienia"), answer.ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_ZAMOWIENIA", "@id_zamowienia"), answer.ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString()));
-                parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), p.Discount.ToString()));
-                parameter = InsertParametersToString(parameters);
-                DataBaseAccess.SetData("INSERT INTO OPISY_ZAMOWIEN (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+                parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_ZAMOWIENIA", "@FIRSTINSERTEDROW"), ""));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), p.Discount.ToString()));
+                param = InsertParametersToString(parameter);
+                statement="INSERT INTO OPISY_ZAMOWIEN (" + param.Key + ") VALUES (" + param.Value + ")";
+                statements.Add(statement);
+                parameters.Add(parameter);
             }
 
-            return 0;
+            return DataBaseAccess.SetDataTransaction(statements, parameters);
         }
 
         public static Employee GetEmployee(string userName, string password)

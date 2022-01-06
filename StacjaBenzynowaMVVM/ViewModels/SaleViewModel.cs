@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using StacjaBenzynowaMVVM.Helpers.Classes;
 using System.ComponentModel;
 using StacjaBenzynowaMVVM.EventModels;
+using System.Collections.ObjectModel;
 
 namespace StacjaBenzynowa.ViewModels
 {
     class SaleViewModel:Screen
     {
-        BindingList<Product> _products;
-        BindingList<Product> _cartItems;
+        ObservableCollection<Product> _products;
+        ObservableCollection<Product> _cartItems;
         private int _ammount;
         private Product _product;
         private Product _cartItem;
@@ -26,7 +27,8 @@ namespace StacjaBenzynowa.ViewModels
         {
             _products = DatabaseDataHelper.GetProducts();
             _eventAggregator = eventAggregator;
-            _cartItems = new BindingList<Product>();
+            _cartItems = new ObservableCollection<Product>();
+            RemoveZeroItems();
         }
 
         public Product Product
@@ -52,23 +54,21 @@ namespace StacjaBenzynowa.ViewModels
             }
         }
 
-        public BindingList<Product> Products
+        public ObservableCollection<Product> Products
         {
             get { return _products; }
             set 
             { 
                 _products = value;
-                NotifyOfPropertyChange(() => Products);
             }
         }
 
-        public BindingList<Product> CartItems
+        public ObservableCollection<Product> CartItems
         {
             get { return _cartItems; }
             set
             {
                 _cartItems = value;
-                NotifyOfPropertyChange(() => CartItems);
             }
         }
 
@@ -98,11 +98,8 @@ namespace StacjaBenzynowa.ViewModels
 
         public void AddToCart()
         {
-            int i = Products.IndexOf(Product);
             Product.Amount -= Amount;
             Product product = new Product(Product);
-            Products.Remove(Product);
-            Products.Insert(i, product);
             product = new Product(product);
             product.Amount = Amount;
                 CartItems.Add(product);
@@ -124,17 +121,11 @@ namespace StacjaBenzynowa.ViewModels
 
         public void DeleteFromCart()
         {
-            int i=0;
-            Product product = null;
             foreach (Product p in Products)
             {
                 if (p.ProductID == CartItem.ProductID)
                 {
-                    i = Products.IndexOf(p);
-                    product = new Product(Products.ElementAt(i));
-                    Products.RemoveAt(i);
-                    product.Amount += CartItem.Amount;
-                    Products.Insert(i, product);
+                    p.Amount += CartItem.Amount;
                     CartItems.Remove(CartItem);
                     break;
                 }
@@ -144,19 +135,13 @@ namespace StacjaBenzynowa.ViewModels
 
         public void ClearCart()
         {
-            int i = 0;
-            Product product = null;
             foreach (Product c in CartItems)
             {
                 foreach (Product p in Products)
                 {
                     if (p.ProductID == c.ProductID)
                     {
-                        i = Products.IndexOf(p);
-                        product = new Product(Products.ElementAt(i));
-                        Products.RemoveAt(i);
-                        product.Amount += c.Amount;
-                        Products.Insert(i, product);
+                        p.Amount += c.Amount;                        
                         break;
                     }
                 }
@@ -189,22 +174,13 @@ namespace StacjaBenzynowa.ViewModels
         }
         public void ChangeAmount()
         {
-            int i = 0;
-            Product product = null;
             foreach (Product p in Products)
             {
                 if (p.ProductID == CartItem.ProductID)
                 {
-                    i = Products.IndexOf(p);
-                    product = new Product(Products.ElementAt(i));
-                    Products.RemoveAt(i);
-                    product.Amount += CartItem.Amount-Amount;
-                    Products.Insert(i, product);
-                    i = CartItems.IndexOf(CartItem);
-                    CartItems.Remove(CartItem);
-                    product = new Product(product);
-                    product.Amount = Amount;
-                    CartItems.Insert(i, product);
+                    p.Amount += CartItem.Amount;
+                    p.Amount -= Amount;
+                    CartItem.Amount = Amount;
                     break;
                 }
             }
@@ -223,6 +199,15 @@ namespace StacjaBenzynowa.ViewModels
         public void ConfirmCart()
         {
             _eventAggregator.PublishOnUIThread(new ConfirmSale(CartItems));
+        }
+
+        public void RemoveZeroItems()
+        {
+            foreach (Product p in Products.ToList())
+            {
+                if(p.Amount==0)
+                    Products.Remove(p);
+            }
         }
 
     }
