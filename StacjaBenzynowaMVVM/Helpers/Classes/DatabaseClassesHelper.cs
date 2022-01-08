@@ -147,5 +147,45 @@ namespace StacjaBenzynowaMVVM.Helpers
             else
                 return employee;
         }
+
+        public static int GetClientPoints(List<Dictionary<string, string>> data)
+        {
+            int points = 0;
+            if (data.Count != 0)
+            {
+                if (data[0]["PUNKTY"] != "")
+                    points = Convert.ToInt32(data[0]["PUNKTY"]);
+            }
+            return points;
+        }
+
+        public static ObservableCollection<Supplier> GetSuppliers(List<Dictionary<string, string>> suppliers)
+        {
+            ObservableCollection<Supplier> Suppliers = new ObservableCollection<Supplier>();
+            foreach (Dictionary<string, string> supplier in suppliers)
+            {
+                Supplier Supplier = new Supplier();
+                foreach (KeyValuePair<string, string> valuePair in supplier)
+                {
+                    if (valuePair.Value != "")
+                        switch (valuePair.Key)
+                        {
+                            case "NAZWA_FIRMY":
+                                {
+                                    Supplier.SupplierName = valuePair.Value;
+                                    break;
+                                }
+                            case "ID_DOSTAWCY":
+                                {
+                                    Supplier.SupplierID = Convert.ToInt32(valuePair.Value);
+                                    break;
+                                }
+                        }
+                }
+                Suppliers.Add(Supplier);
+            }
+            return Suppliers;
+        }
+
     }
 }

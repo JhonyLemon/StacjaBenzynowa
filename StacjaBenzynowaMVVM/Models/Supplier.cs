@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    class Supplier
+    public class Supplier
     {
         private int _supplierID;
         public int SupplierID

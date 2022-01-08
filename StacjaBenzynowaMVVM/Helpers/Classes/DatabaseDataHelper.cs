@@ -55,14 +55,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                         new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY",""),""),
                         new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA","@id"),cardCode)
                     });
-                if(answer.Count!=0)
-                {
-                    if (answer[0]["PUNKTY"] == "")
-                        client.Points = 0;
-                    else
-                        client.Points = Convert.ToInt32(answer[0]["PUNKTY"]);
-                }
-                
+                client.Points = DatabaseClassesHelper.GetClientPoints(answer);
             }
             return client;
         }
@@ -77,6 +70,31 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             };
             KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+        }
+
+        public static int SetProducts(ObservableCollection<Product> products)
+        {
+            List<string> statements = new List<string>();
+            List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameter;
+            string statement = "";
+            KeyValuePair<string, string> param;
+            foreach (Product p in products)
+            {
+                parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA", "@id_produktu"), p.Name));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_DOSTAWY", "@deliverDate"), p.DeliveryDate.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), p.ExpirationDate.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY", "@id"), p.SupplierID.ToString()));
+                param = InsertParametersToString(parameter);
+                statement = "INSERT INTO PRODUKTY (" + param.Key + ") VALUES (" + param.Value + ")";
+                statements.Add(statement);
+                parameters.Add(parameter);
+            }
+
+            return DataBaseAccess.SetDataTransaction(statements, parameters);
         }
 
         public static int SetSale(Client client, ObservableCollection<Product> products, Employee employee, double price)
@@ -129,6 +147,22 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN","@login"),userName),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO","@password"),PasswordHashHelper.HashPassword(password))
+                        }
+                    )
+               );
+        }
+
+        public static ObservableCollection<Supplier> GetSuppliers()
+        {
+            return DatabaseClassesHelper.GetSuppliers
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM DOSTAWCY",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA_FIRMY",""),"")
                         }
                     )
                );

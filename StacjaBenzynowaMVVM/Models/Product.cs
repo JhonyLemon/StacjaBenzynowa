@@ -97,6 +97,8 @@ namespace StacjaBenzynowaMVVM.Models
             Discount = product.Discount;
         }
 
+
+
         public DateTime ExpirationDate
         {
             get { return _expirationDate; }
