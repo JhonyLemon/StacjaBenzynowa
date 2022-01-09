@@ -13,7 +13,6 @@ namespace StacjaBenzynowaMVVM.Models
     public class Product: INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
@@ -97,8 +96,6 @@ namespace StacjaBenzynowaMVVM.Models
             Discount = product.Discount;
         }
 
-
-
         public DateTime ExpirationDate
         {
             get { return _expirationDate; }
@@ -112,6 +109,29 @@ namespace StacjaBenzynowaMVVM.Models
         public double PricePerOne
         {
             get { return Price * (1 - Discount); }
+        }
+
+        public int CheckExpDate()
+        {
+            if(ExpirationDate.CompareTo(DateTime.Today)<0)
+            {
+                TimeSpan timeLeft = DateTime.Today.Subtract(ExpirationDate);
+                int days = (timeLeft.Days/7)*5;
+                if (Discount == 100 - days)
+                    return 0;
+                else
+                {
+                    if (100 - days > 0)
+                        Discount = 100 - days;
+                    else
+                        return 0;
+                }
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
     }

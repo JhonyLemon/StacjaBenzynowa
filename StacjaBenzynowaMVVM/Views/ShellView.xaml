@@ -8,6 +8,11 @@
         Title="ShellView" Height="450" Width="800" WindowState="Maximized">
     <DockPanel>
         <Menu DockPanel.Dock="Top" Visibility="{Binding Path=MenuVisibility,Mode=OneWay}">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
             <MenuItem Header="Sprzedaż" x:Name="Sale"/>
             <MenuItem Header="Dostawy">
                 <MenuItem Header="Dostawa" x:Name="Deliveries"/>
@@ -16,6 +21,7 @@
             <MenuItem Header="Wyloguj" x:Name="Logout"/>
             <MenuItem Header="Dodaj klienta" x:Name="AddClient"/>
             <MenuItem Header="Dodaj pracownika" x:Name="AddEmployee"/>
+            <MenuItem Header="Powiadomienia" x:Name="Notifications" HorizontalAlignment="Right" Foreground="{Binding Path=NotificationColor, Mode=OneWay}"></MenuItem>
         </Menu>
         <Grid>
             <ContentControl x:Name="ActiveItem"/>

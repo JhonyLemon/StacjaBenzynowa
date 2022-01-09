@@ -72,6 +72,16 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
         }
 
+        public static int SetSupplier(string name)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA_FIRMY", "@nazwa"), name),
+            };
+            KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
+            return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+        }
+
         public static int SetProducts(ObservableCollection<Product> products)
         {
             List<string> statements = new List<string>();
@@ -122,9 +132,48 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), p.Discount.ToString()));
                 param = InsertParametersToString(parameter);
                 statement="INSERT INTO OPISY_ZAMOWIEN (" + param.Key + ") VALUES (" + param.Value + ")";
+                statements.Add(statement);
+                parameters.Add(parameter);
+            }
+
+            return DataBaseAccess.SetDataTransaction(statements, parameters);
+        }
+
+        public static int UpdateProducts(List<Product> products)
+        {
+            List<string> statements = new List<string>();
+            List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameter;
+            string statement = "";
+            foreach (Product p in products)
+            {
+                parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id"), p.ProductID.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@discount"), p.Discount.ToString()));
+                statement = "UPDATE PRODUKTY SET RABAT=@discount WHERE ID_PRODUKTU=@id";
+                statements.Add(statement);
+                parameters.Add(parameter);
+            }
+
+            return DataBaseAccess.SetDataTransaction(statements, parameters);
+        }
+
+        public static int SetExpiredProducts(List<Product> products)
+        {
+            List<string> statements = new List<string>();
+            List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameter;
+            string statement = "";
+            KeyValuePair<string, string> param;
+            foreach (Product p in products)
+            {
+                parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
+                param = InsertParametersToString(parameter);
+                statement = "INSERT INTO PRODUKTY_PO_TERMINIE (" + param.Key + ") VALUES (" + param.Value + ")";
                 statements.Add(statement);
                 parameters.Add(parameter);
             }

@@ -26,13 +26,20 @@ namespace StacjaBenzynowa.ViewModels
         private string _message="";
         private ObservableCollection<Supplier> _suppliers;
         DispatcherTimer _dispatcherTimer = new DispatcherTimer();
-
-        public DeliveriesViewModel()
+        private IEventAggregator _eventAggregator;
+           
+        public DeliveriesViewModel(IEventAggregator eventAggregator)
         {
             _products = new ObservableCollection<Product>();
-            _suppliers = DatabaseDataHelper.GetSuppliers();
+            GetSuppliers();
             _dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
             _dispatcherTimer.Tick += new EventHandler(TimerTick);
+            _eventAggregator = eventAggregator;
+        }
+
+        public void GetSuppliers()
+        {
+            _suppliers = DatabaseDataHelper.GetSuppliers();
         }
 
         public ObservableCollection<Product> Products
@@ -229,6 +236,7 @@ namespace StacjaBenzynowa.ViewModels
                 Message = "Dodano nowe produkty";
                 MessageColor = Brushes.LimeGreen;
                 _dispatcherTimer.Start();
+                _eventAggregator.PublishOnUIThread(new UpdateProductsOnEvent());
             }
             else
             {

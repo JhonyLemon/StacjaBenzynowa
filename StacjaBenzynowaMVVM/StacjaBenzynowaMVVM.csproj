@@ -89,18 +89,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventModels\AddNotificationsOnEvent.cs" />
     <Compile Include="EventModels\ConfirmDelivery.cs" />
     <Compile Include="EventModels\ConfirmSale.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="EventModels\LogOutOnEvent.cs" />
+    <Compile Include="EventModels\NotificationCheckOnEvent.cs" />
     <Compile Include="EventModels\ReturnOnEvent.cs" />
     <Compile Include="EventModels\SoldOnEvent.cs" />
+    <Compile Include="EventModels\UpdateProductsOnEvent.cs" />
+    <Compile Include="EventModels\UpdateSuppliersOnEvent.cs" />
     <Compile Include="Helpers\Classes\DatabaseDataHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordHashHelper.cs" />
     <Compile Include="Helpers\Classes\DatabaseClassesHelper.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ViewModels\AddClientViewModel.cs" />
@@ -110,6 +115,7 @@
     <Compile Include="ViewModels\DeliveriesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LogoutViewModel.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\SaleViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AddClientView.xaml.cs">
@@ -132,6 +138,9 @@
     </Compile>
     <Compile Include="Views\LogoutView.xaml.cs">
       <DependentUpon>LogoutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NotificationsView.xaml.cs">
+      <DependentUpon>NotificationsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SaleView.xaml.cs">
       <DependentUpon>SaleView.xaml</DependentUpon>
@@ -200,6 +209,10 @@
     <Page Include="Views\LogoutView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NotificationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SaleView.xaml">
       <Generator>MSBuild:Compile</Generator>

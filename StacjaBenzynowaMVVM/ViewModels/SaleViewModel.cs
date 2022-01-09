@@ -25,9 +25,14 @@ namespace StacjaBenzynowa.ViewModels
 
         public SaleViewModel(IEventAggregator eventAggregator)
         {
-            _products = DatabaseDataHelper.GetProducts();
+            GetProducts();
             _eventAggregator = eventAggregator;
             _cartItems = new ObservableCollection<Product>();
+        }
+
+        public void GetProducts()
+        {
+            _products = DatabaseDataHelper.GetProducts();
             RemoveZeroItems();
         }
 
@@ -203,11 +208,45 @@ namespace StacjaBenzynowa.ViewModels
 
         public void RemoveZeroItems()
         {
+            ObservableCollection<Notification> notifications = new ObservableCollection<Notification>();
             foreach (Product p in Products.ToList())
             {
-                if(p.Amount==0)
+                if (p.Amount == 0)
+                {
+                    notifications.Add(new Notification("Wyprzedzano", p.Name));
                     Products.Remove(p);
+                }
             }
+            if (notifications.Count > 0 && _eventAggregator!=null)
+                _eventAggregator.PublishOnUIThread(new AddNotificationsOnEvent(notifications));
+        }
+
+        public void UpdateDiscounts()
+        {
+            ObservableCollection<Notification> notifications = new ObservableCollection<Notification>();
+            int i = 0;
+            List<Product> expieredProducts = new List<Product>();
+            List<Product> discountChangedProducts = new List<Product>();
+            foreach(Product p in Products)
+            {
+                i = p.CheckExpDate();
+               if (i==-1)
+               {
+                    expieredProducts.Add(p);
+                    notifications.Add(new Notification("Koniec Daty Ważności", p.Name));
+                }
+               else if(i==1)
+               {
+                    discountChangedProducts.Add(p);
+                    notifications.Add(new Notification("Zmiana ceny", p.Name));
+                }
+            }
+            if (expieredProducts.Count > 0)
+                DatabaseDataHelper.SetExpiredProducts(expieredProducts);
+            if (discountChangedProducts.Count > 0)
+                DatabaseDataHelper.UpdateProducts(discountChangedProducts);
+            if(notifications.Count>0)
+                _eventAggregator.PublishOnUIThread(new AddNotificationsOnEvent(notifications));
         }
 
     }
