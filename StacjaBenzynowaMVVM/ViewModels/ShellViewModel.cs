@@ -22,9 +22,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private LogoutViewModel _logoutViewModel;
         private DeliveriesViewModel _deliveriesViewModel;
         private CheckOutViewModel _checkOutViewModel;
+        private AddSupplierViewModel _addSupplierViewModel;
+        private AddEmployeeViewModel _addEmployeeViewModel;
         private IEventAggregator _eventAggregator;
         private Screen previouslyActive;
-        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel)
+        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel)
         {
             _loginViewModel = loginViewModel;
             _eventAggregator = eventAggregator;
@@ -33,7 +35,9 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _logoutViewModel = logoutViewModel;
             _deliveriesViewModel = deliveriesViewModel;
             _checkOutViewModel = checkOutViewModel;
-            _eventAggregator.Subscribe(this);
+            _addSupplierViewModel = addSupplierViewModel;
+            _addEmployeeViewModel = addEmployeeViewModel;
+        _eventAggregator.Subscribe(this);
             ActivateItem(_loginViewModel);
         }
 
@@ -75,6 +79,18 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             previouslyActive = (Screen)ActiveItem;
             ActivateItem(_deliveriesViewModel);
+        }
+
+        public void AddSupplier()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_addSupplierViewModel);
+        }
+
+        public void AddEmployee()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            ActivateItem(_addEmployeeViewModel);
         }
 
         public void Handle(LogOutOnEvent message)

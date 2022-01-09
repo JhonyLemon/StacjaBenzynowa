@@ -104,6 +104,8 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="ViewModels\AddClientViewModel.cs" />
+    <Compile Include="ViewModels\AddEmployeeViewModel.cs" />
+    <Compile Include="ViewModels\AddSupplierViewModel.cs" />
     <Compile Include="ViewModels\CheckOutViewModel.cs" />
     <Compile Include="ViewModels\DeliveriesViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -112,6 +114,12 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AddClientView.xaml.cs">
       <DependentUpon>AddClientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddEmployeeView.xaml.cs">
+      <DependentUpon>AddEmployeeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddSupplierView.xaml.cs">
+      <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CheckOutView.xaml.cs">
       <DependentUpon>CheckOutView.xaml</DependentUpon>
@@ -168,6 +176,14 @@
     <Page Include="Views\AddClientView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddEmployeeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddSupplierView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckOutView.xaml">
       <SubType>Designer</SubType>

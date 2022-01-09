@@ -9,9 +9,13 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top" Visibility="{Binding Path=MenuVisibility,Mode=OneWay}">
             <MenuItem Header="Sprzedaż" x:Name="Sale"/>
-            <MenuItem Header="Dostawy" x:Name="Deliveries"/>
+            <MenuItem Header="Dostawy">
+                <MenuItem Header="Dostawa" x:Name="Deliveries"/>
+                <MenuItem Header="Dodaj dostawce" x:Name="AddSupplier"/>
+            </MenuItem>
             <MenuItem Header="Wyloguj" x:Name="Logout"/>
             <MenuItem Header="Dodaj klienta" x:Name="AddClient"/>
+            <MenuItem Header="Dodaj pracownika" x:Name="AddEmployee"/>
         </Menu>
         <Grid>
             <ContentControl x:Name="ActiveItem"/>
