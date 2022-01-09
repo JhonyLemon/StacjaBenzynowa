@@ -71,7 +71,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
-        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Top" Width="257" Height="30" Foreground="{Binding Path=MessgageColor, Mode=OneWay}"></TextBlock>
+        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Top" Width="257" Height="30" Foreground="{Binding Path=MessageColor, Mode=OneWay}"></TextBlock>
         <Button  x:Name="AddToCart" Grid.Column="3" Grid.Row="1" Margin="10 10 10 10">Dodaj</Button>
         <Button  x:Name="Delete" Grid.Column="3" Grid.Row="2" Margin="10 10 10 10">Usuń</Button>
         <Button  x:Name="ChangeAmount" Grid.Column="3" Grid.Row="3" Margin="10 10 10 10">Zmień ilość</Button>

@@ -79,7 +79,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA_FIRMY", "@nazwa"), name),
             };
             KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
-            return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+            return DataBaseAccess.SetData("INSERT INTO DOSTAWCY (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
         }
 
         public static int SetProducts(ObservableCollection<Product> products)

@@ -39,7 +39,7 @@
             <TextBlock  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Nazwa firmy:</TextBlock>
             <TextBox x:Name="Name" Margin="10 10 10 10"></TextBox>
         </StackPanel>
-        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Top" Width="257" Height="30" Foreground="{Binding Path=MessgageColor, Mode=OneWay}"></TextBlock>
+        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="4" VerticalAlignment="Top" Width="257" Height="30" Foreground="{Binding Path=MessageColor, Mode=OneWay}"></TextBlock>
         <Button  x:Name="AddSupplier" Grid.Column="2" Grid.Row="2" Margin="10 10 10 10">Dodaj</Button>
     </Grid>
 </UserControl>
