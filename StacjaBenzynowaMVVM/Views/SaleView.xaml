@@ -39,7 +39,7 @@
                 <GridView>
                     <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
-                    <GridViewColumn Header="Cena jednostkowa" DisplayMemberBinding="{Binding PricePerOne}" />
+                    <GridViewColumn Header="Cena jednostkowa" DisplayMemberBinding="{Binding PricePerOne, StringFormat=#.00}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -49,7 +49,7 @@
                 <GridView>
                     <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
                     <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
-                    <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding FinalPrice}" />
+                    <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding FinalPrice, StringFormat=#.00}" />
                 </GridView>
             </ListView.View>
         </ListView>

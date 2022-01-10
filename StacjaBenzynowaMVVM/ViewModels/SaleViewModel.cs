@@ -245,8 +245,11 @@ namespace StacjaBenzynowa.ViewModels
                 DatabaseDataHelper.SetExpiredProducts(expieredProducts);
             if (discountChangedProducts.Count > 0)
                 DatabaseDataHelper.UpdateProducts(discountChangedProducts);
-            if(notifications.Count>0)
+            if (notifications.Count > 0)
+            {
+                GetProducts();
                 _eventAggregator.PublishOnUIThread(new AddNotificationsOnEvent(notifications));
+            }
         }
 
     }

@@ -88,6 +88,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             DeactivateItem(_loginViewModel, false);
             ActivateItem(_saleViewModel);
             MenuVisibility = Visibility.Visible;
+            _dispatcherTimer_Tick(this, null);
         }
 
         public void Sale()

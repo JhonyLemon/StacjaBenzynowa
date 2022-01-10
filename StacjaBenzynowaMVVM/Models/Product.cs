@@ -102,27 +102,30 @@ namespace StacjaBenzynowaMVVM.Models
             set { _expirationDate = value; }
         }
 
-        public double FinalPrice
+        public string FinalPrice
         {
-            get { return Price * (1 - Discount)*Amount; }
+            get { return (Price * (1 - Discount)*Amount).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
         }
-        public double PricePerOne
+
+
+
+        public string PricePerOne
         {
-            get { return Price * (1 - Discount); }
+            get { return (Price * (1 - Discount)).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
         }
 
         public int CheckExpDate()
         {
-            if(ExpirationDate.CompareTo(DateTime.Today)<0)
+            if(ExpirationDate.CompareTo(DateTime.Today)>0)
             {
-                TimeSpan timeLeft = DateTime.Today.Subtract(ExpirationDate);
+                TimeSpan timeLeft = ExpirationDate.Subtract(DateTime.Today);
                 int days = (timeLeft.Days/7)*5;
-                if (Discount == 100 - days)
+                if (Discount == ((double)((100 - days))) / 100)
                     return 0;
                 else
                 {
                     if (100 - days > 0)
-                        Discount = 100 - days;
+                        Discount = ((double)((100 - days)))/100;
                     else
                         return 0;
                 }
