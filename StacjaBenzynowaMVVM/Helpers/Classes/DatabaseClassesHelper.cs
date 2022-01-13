@@ -11,181 +11,218 @@ namespace StacjaBenzynowaMVVM.Helpers
 {
     public class DatabaseClassesHelper
     {
-        public static Client GetClientClass(List<Dictionary<string, string>> client)
+        public static Client GetClientClass(List<Dictionary<string, object>> client)
         {
-            Client Client = new Client();
-            if (client.Count == 1)
-            {
-                foreach (Dictionary<string, string> c in client)
-                {
-                    foreach (KeyValuePair<string, string> valuePair in c)
-                    {
-                        if (valuePair.Value != "")
-                            switch (valuePair.Key)
-                            {
-                                case "ID_KLIENTA":
-                                    {
-                                        Client.ClientID = Convert.ToInt32(valuePair.Value);
-                                        break;
-                                    }
-                                case "IMIE":
-                                    {
-                                        Client.FirstName = valuePair.Value;
-                                        break;
-                                    }
-                                case "NAZWISKO":
-                                    {
-                                        Client.SurName = valuePair.Value;
-                                        break;
-                                    }
-                                case "NIP":
-                                    {
-                                        Client.NIP = valuePair.Value;
-                                        break;
-                                    }
-                            }
-                    }
-                }
-                return Client;
-            }
-            return null;
+            ObservableCollection<BaseModel> models = GetModel(client, typeof(Client));
+
+            return (Client)models[0];
+            //Client Client = new Client();
+            //if (client.Count == 1)
+            //{
+            //    foreach (Dictionary<string, object> c in client)
+            //    {
+            //        foreach (KeyValuePair<string, object> valuePair in c)
+            //        {
+            //            if ((string)valuePair.Value != "")
+            //                switch (valuePair.Key)
+            //                {
+            //                    case "ID_KLIENTA":
+            //                        {
+            //                            Client.ID_KLIENTA =(int)valuePair.Value;
+            //                            break;
+            //                        }
+            //                    case "IMIE":
+            //                        {
+            //                            Client.IMIE = (string)valuePair.Value;
+            //                            break;
+            //                        }
+            //                    case "NAZWISKO":
+            //                        {
+            //                            Client.NAZWISKO = (string)valuePair.Value;
+            //                            break;
+            //                        }
+            //                    case "NIP":
+            //                        {
+            //                            Client.NIP = (string)valuePair.Value;
+            //                            break;
+            //                        }
+            //                }
+            //        }
+            //    }
+            //    return Client;
+            //}
+            //return null;
         }
 
-        public static ObservableCollection<Product> GetProductsList(List<Dictionary<string, string>> products)
+        public static ObservableCollection<Product> GetProductsList(List<Dictionary<string, object>> products)
         {
+            ObservableCollection<BaseModel> models = GetModel(products, typeof(Product));
             ObservableCollection<Product> Products = new ObservableCollection<Product>();
-            foreach(Dictionary<string,string> product in products)
+            foreach (Product p in models)
             {
-                Product Product = new Product();
-                foreach(KeyValuePair<string,string> valuePair in product)
-                {
-                    if(valuePair.Value!="")
-                    switch(valuePair.Key)
-                    {
-                        case "NAZWA":
-                            {
-                                Product.Name = valuePair.Value;
-                                break;
-                            }
-                        case "CENA":
-                            {
-                                Product.Price = Convert.ToDouble(valuePair.Value);
-                                break;
-                            }
-                        case "ID_PRODUKTU":
-                            {
-                                Product.ProductID = Convert.ToInt32(valuePair.Value);
-                                break;
-                            }
-                        case "DATA_DOSTAWY":
-                            {
-                                Product.DeliveryDate = Convert.ToDateTime(valuePair.Value);
-                                break;
-                            }
-                        case "DATA_WAZNOSCI":
-                            {
-                                Product.ExpirationDate = Convert.ToDateTime(valuePair.Value);
-                                break;
-                            }
-                        case "ILOSC":
-                            {
-                                Product.Amount = Convert.ToInt32(valuePair.Value);
-                                break;
-                            }
-                        case "ID_DOSTAWCY":
-                            {
-                                Product.SupplierID = Convert.ToInt32(valuePair.Value);
-                                break;
-                            }
-                        case "RABAT":
-                            {
-                                Product.Discount = Convert.ToDouble(valuePair.Value);
-                                break;
-                            }
-                    }
-                }
-                Products.Add(Product);
+                Products.Add(p);
             }
             return Products;
+            //ObservableCollection<Product> Products = new ObservableCollection<Product>();
+            //foreach(Dictionary<string, object> product in products)
+            //{
+            //    Product Product = new Product();
+            //    foreach(KeyValuePair<string, object> valuePair in product)
+            //    {
+            //        if((string)valuePair.Value!="")
+            //        switch(valuePair.Key)
+            //        {
+            //            case "NAZWA":
+            //                {
+            //                    Product.NAZWA = (string)valuePair.Value;
+            //                    break;
+            //                }
+            //            case "CENA":
+            //                {
+            //                    Product.CENA = Convert.ToDouble(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "ID_PRODUKTU":
+            //                {
+            //                    Product.ID_PRODUKTU = Convert.ToInt32(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "DATA_DOSTAWY":
+            //                {
+            //                    Product.DATA_DOSTAWY = Convert.ToDateTime(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "DATA_WAZNOSCI":
+            //                {
+            //                    Product.DATA_WAZNOSCI = Convert.ToDateTime(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "ILOSC":
+            //                {
+            //                    Product.ILOSC = Convert.ToInt32(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "ID_DOSTAWCY":
+            //                {
+            //                    Product.ID_DOSTAWCY = Convert.ToInt32(valuePair.Value);
+            //                    break;
+            //                }
+            //            case "RABAT":
+            //                {
+            //                    Product.RABAT = Convert.ToDouble(valuePair.Value);
+            //                    break;
+            //                }
+            //        }
+            //    }
+            //    Products.Add(Product);
+            //}
+            //return Products;
         }
 
-        public static Employee GetEmployee(List<Dictionary<string, string>> data)
+        public static Employee GetEmployee(List<Dictionary<string, object>> data)
         {
-            Employee employee = new Employee();
-            foreach (Dictionary<string, string> d in data)
-            {
-                foreach (KeyValuePair<string, string> valuePair in d)
-                {
-                    if (valuePair.Value != "")
-                        switch (valuePair.Key)
-                        {
-                            case "NAZWISKO":
-                                {
-                                    employee.SurName = valuePair.Value;
-                                    break;
-                                }
-                            case "IMIE":
-                                {
-                                    employee.FirstName = valuePair.Value;
-                                    break;
-                                }
-                            case "ID_PRACOWNIKA":
-                                {
-                                    employee.EmployeeID=Convert.ToInt32(valuePair.Value);
-                                    break;
-                                }
-                            case "POZYCJA":
-                                {
-                                    employee.Position = valuePair.Value;
-                                    break;
-                                }
-                        }
-                }
-            }
-            if (employee.EmployeeID==0)
-                return null;
-            else
-                return employee;
+            ObservableCollection<BaseModel> models = GetModel(data, typeof(Employee));
+            return (Employee)models[0];
+
+            //Employee employee = new Employee();
+            //foreach (Dictionary<string, object> d in data)
+            //{
+            //    foreach (KeyValuePair<string, object> valuePair in d)
+            //    {
+            //        if ((string)valuePair.Value != "")
+            //            switch (valuePair.Key)
+            //            {
+            //                case "NAZWISKO":
+            //                    {
+            //                        employee.NAZWISKO = (string)valuePair.Value;
+            //                        break;
+            //                    }
+            //                case "IMIE":
+            //                    {
+            //                        employee.IMIE = (string)valuePair.Value;
+            //                        break;
+            //                    }
+            //                case "ID_PRACOWNIKA":
+            //                    {
+            //                        employee.ID_PRACOWNIKA=Convert.ToInt32(valuePair.Value);
+            //                        break;
+            //                    }
+            //                case "POZYCJA":
+            //                    {
+            //                        employee.POZYCJA = (string)valuePair.Value;
+            //                        break;
+            //                    }
+            //            }
+            //    }
+            //}
+            //if (employee.ID_PRACOWNIKA==0)
+            //    return null;
+            //else
+            //    return employee;
         }
 
-        public static int GetClientPoints(List<Dictionary<string, string>> data)
+        public static int GetClientPoints(List<Dictionary<string, object>> data)
         {
+
             int points = 0;
             if (data.Count != 0)
             {
-                if (data[0]["PUNKTY"] != "")
+                if ((string)data[0]["PUNKTY"] != "")
                     points = Convert.ToInt32(data[0]["PUNKTY"]);
             }
             return points;
         }
 
-        public static ObservableCollection<Supplier> GetSuppliers(List<Dictionary<string, string>> suppliers)
+        public static ObservableCollection<Supplier> GetSuppliers(List<Dictionary<string, object>> suppliers)
         {
+            ObservableCollection<BaseModel> models = GetModel(suppliers, typeof(Supplier));
             ObservableCollection<Supplier> Suppliers = new ObservableCollection<Supplier>();
-            foreach (Dictionary<string, string> supplier in suppliers)
+            foreach(Supplier s in models)
             {
-                Supplier Supplier = new Supplier();
-                foreach (KeyValuePair<string, string> valuePair in supplier)
-                {
-                    if (valuePair.Value != "")
-                        switch (valuePair.Key)
-                        {
-                            case "NAZWA_FIRMY":
-                                {
-                                    Supplier.SupplierName = valuePair.Value;
-                                    break;
-                                }
-                            case "ID_DOSTAWCY":
-                                {
-                                    Supplier.SupplierID = Convert.ToInt32(valuePair.Value);
-                                    break;
-                                }
-                        }
-                }
-                Suppliers.Add(Supplier);
+                Suppliers.Add(s);
             }
             return Suppliers;
+            //ObservableCollection<Supplier> Suppliers = new ObservableCollection<Supplier>();
+            //foreach (Dictionary<string, object> supplier in suppliers)
+            //{
+            //    Supplier Supplier = new Supplier();
+            //    foreach (KeyValuePair<string, object> valuePair in supplier)
+            //    {
+            //        if ((string)valuePair.Value != "")
+            //            switch (valuePair.Key)
+            //            {
+            //                case "NAZWA_FIRMY":
+            //                    {
+            //                        Supplier.NAZWA_FIRMY = (string)valuePair.Value;
+            //                        break;
+            //                    }
+            //                case "ID_DOSTAWCY":
+            //                    {
+            //                        Supplier.ID_DOSTAWCY = Convert.ToInt32(valuePair.Value);
+            //                        break;
+            //                    }
+            //            }
+            //    }
+            //    Suppliers.Add(Supplier);
+            //}
+            //return Suppliers;
         }
 
+        public static ObservableCollection<BaseModel> GetModel(List<Dictionary<string, object>> data, Type type)
+        {
+
+            ObservableCollection<BaseModel> models = new ObservableCollection<BaseModel>();
+            foreach (Dictionary<string, object> d in data)
+            {
+                BaseModel model = (BaseModel)Activator.CreateInstance(type);
+                foreach (KeyValuePair<string, object> valuePair in d)
+                {
+                    if((string)valuePair.Value!="")
+                    model.GetType().GetProperty(valuePair.Key).SetValue(model, Convert.ChangeType(valuePair.Value, model.GetType().GetProperty(valuePair.Key).PropertyType));
+                }
+                models.Add(model);
+            }
+            return models;
+        }
     }
 }

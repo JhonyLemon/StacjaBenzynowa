@@ -103,6 +103,7 @@
     <Compile Include="Helpers\Classes\PasswordBoxHelper.cs" />
     <Compile Include="Helpers\Classes\PasswordHashHelper.cs" />
     <Compile Include="Helpers\Classes\DatabaseClassesHelper.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\Notification.cs" />

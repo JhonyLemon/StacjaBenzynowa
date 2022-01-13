@@ -94,7 +94,7 @@ namespace StacjaBenzynowa.ViewModels
             get
             {
                 bool check = false;
-                if (Amount>0 && Product!=null && Product.Amount>=Amount)
+                if (Amount>0 && Product!=null && Product.ILOSC>=Amount)
                     check = true;
                 return check;
             }
@@ -103,10 +103,10 @@ namespace StacjaBenzynowa.ViewModels
 
         public void AddToCart()
         {
-            Product.Amount -= Amount;
+            Product.ILOSC -= Amount;
             Product product = new Product(Product);
             product = new Product(product);
-            product.Amount = Amount;
+            product.ILOSC = Amount;
                 CartItems.Add(product);
                 Amount = 0;
                 Product = null;
@@ -128,9 +128,9 @@ namespace StacjaBenzynowa.ViewModels
         {
             foreach (Product p in Products)
             {
-                if (p.ProductID == CartItem.ProductID)
+                if (p.ID_PRODUKTU == CartItem.ID_PRODUKTU)
                 {
-                    p.Amount += CartItem.Amount;
+                    p.ILOSC += CartItem.ILOSC;
                     CartItems.Remove(CartItem);
                     break;
                 }
@@ -144,9 +144,9 @@ namespace StacjaBenzynowa.ViewModels
             {
                 foreach (Product p in Products)
                 {
-                    if (p.ProductID == c.ProductID)
+                    if (p.ID_PRODUKTU == c.ID_PRODUKTU)
                     {
-                        p.Amount += c.Amount;                        
+                        p.ILOSC += c.ILOSC;                        
                         break;
                     }
                 }
@@ -165,13 +165,13 @@ namespace StacjaBenzynowa.ViewModels
                 {
                     foreach (Product p in Products)
                     {
-                        if (p.ProductID == CartItem.ProductID)
+                        if (p.ID_PRODUKTU == CartItem.ID_PRODUKTU)
                         {
                             i = Products.IndexOf(p);
                             break;
                         }
                     }
-                    if (Amount > 0 && Products.ElementAt(i).Amount >= Amount - CartItem.Amount)
+                    if (Amount > 0 && Products.ElementAt(i).ILOSC >= Amount - CartItem.ILOSC)
                         check = true;
                 }
                 return check;
@@ -181,11 +181,11 @@ namespace StacjaBenzynowa.ViewModels
         {
             foreach (Product p in Products)
             {
-                if (p.ProductID == CartItem.ProductID)
+                if (p.ID_PRODUKTU == CartItem.ID_PRODUKTU)
                 {
-                    p.Amount += CartItem.Amount;
-                    p.Amount -= Amount;
-                    CartItem.Amount = Amount;
+                    p.ILOSC += CartItem.ILOSC;
+                    p.ILOSC -= Amount;
+                    CartItem.ILOSC = Amount;
                     break;
                 }
             }
@@ -211,9 +211,9 @@ namespace StacjaBenzynowa.ViewModels
             ObservableCollection<Notification> notifications = new ObservableCollection<Notification>();
             foreach (Product p in Products.ToList())
             {
-                if (p.Amount == 0)
+                if (p.ILOSC == 0)
                 {
-                    notifications.Add(new Notification("Wyprzedzano", p.Name));
+                    notifications.Add(new Notification("Wyprzedzano", p.NAZWA));
                     Products.Remove(p);
                 }
             }
@@ -233,12 +233,12 @@ namespace StacjaBenzynowa.ViewModels
                if (i==-1)
                {
                     expieredProducts.Add(p);
-                    notifications.Add(new Notification("Koniec Daty Ważności", p.Name));
+                    notifications.Add(new Notification("Koniec Daty Ważności", p.NAZWA));
                 }
                else if(i==1)
                {
                     discountChangedProducts.Add(p);
-                    notifications.Add(new Notification("Zmiana ceny", p.Name));
+                    notifications.Add(new Notification("Zmiana ceny", p.NAZWA));
                 }
             }
             if (expieredProducts.Count > 0)

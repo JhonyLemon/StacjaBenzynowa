@@ -38,7 +38,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
         public static Client GetClient(string cardCode)
         {
             Client client=null;
-            List<Dictionary<string, string>> answer = DataBaseAccess.GetImportedData("SELECT * FROM KLIENCI WHERE ID_KLIENTA=@id", 
+            List<Dictionary<string, object>> answer = DataBaseAccess.GetImportedData("SELECT * FROM KLIENCI WHERE ID_KLIENTA=@id", 
                 new List<KeyValuePair<KeyValuePair<string, string>, string>>
                 {
                     new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA","@id"),cardCode),
@@ -55,7 +55,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                         new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY",""),""),
                         new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA","@id"),cardCode)
                     });
-                client.Points = DatabaseClassesHelper.GetClientPoints(answer);
+                client.PUNKTY = DatabaseClassesHelper.GetClientPoints(answer);
             }
             return client;
         }
@@ -92,12 +92,12 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             foreach (Product p in products)
             {
                 parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA", "@id_produktu"), p.Name));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_DOSTAWY", "@deliverDate"), p.DeliveryDate.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), p.ExpirationDate.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY", "@id"), p.SupplierID.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA", "@id_produktu"), p.NAZWA));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.ILOSC.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.CENA.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_DOSTAWY", "@deliverDate"), p.DATA_DOSTAWY.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), p.DATA_WAZNOSCI.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY", "@id"), p.ID_DOSTAWCY.ToString()));
                 param = InsertParametersToString(parameter);
                 statement = "INSERT INTO PRODUKTY (" + param.Key + ") VALUES (" + param.Value + ")";
                 statements.Add(statement);
@@ -113,10 +113,10 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             List<List<KeyValuePair<KeyValuePair<string, string>, string>>> parameters = new List<List<KeyValuePair<KeyValuePair<string, string>, string>>>();
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA","@id_pracownika"),employee.EmployeeID.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA","@id_pracownika"),employee.ID_PRACOWNIKA.ToString()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA","@data"),DateTime.Today.ToString()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), client.GetClientID()),
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), client.Discount.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), client.RABAT.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY", "@punkty"), (price / 100).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))
             };
             KeyValuePair<string, string> param = InsertParametersToString(parameter);
@@ -129,9 +129,9 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             {
                 parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_ZAMOWIENIA", "@FIRSTINSERTEDROW"), ""));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ID_PRODUKTU.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.ILOSC.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.CENA.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
                 param = InsertParametersToString(parameter);
                 statement="INSERT INTO OPISY_ZAMOWIEN (" + param.Key + ") VALUES (" + param.Value + ")";
                 statements.Add(statement);
@@ -150,8 +150,8 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             foreach (Product p in products)
             {
                 parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id"), p.ProductID.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@discount"), p.Discount.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id"), p.ID_PRODUKTU.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@discount"), p.RABAT.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
                 statement = "UPDATE PRODUKTY SET RABAT=@discount WHERE ID_PRODUKTU=@id";
                 statements.Add(statement);
                 parameters.Add(parameter);
@@ -170,8 +170,8 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             foreach (Product p in products)
             {
                 parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>();
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ProductID.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.Amount.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRODUKTU", "@id_produktu"), p.ID_PRODUKTU.ToString()));
+                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.ILOSC.ToString()));
                 param = InsertParametersToString(parameter);
                 statement = "INSERT INTO PRODUKTY_PO_TERMINIE (" + param.Key + ") VALUES (" + param.Value + ")";
                 statements.Add(statement);

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Employee
+    public class Employee:BaseModel
     {
         private int _employeeID;
-        public int EmployeeID
+        public int ID_PRACOWNIKA
         {
             get { return _employeeID; }
             set { _employeeID = value; }
@@ -17,7 +17,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private string _firstName;
 
-        public string FirstName
+        public string IMIE
         {
             get { return _firstName; }
             set { _firstName = value; }
@@ -25,7 +25,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private string _surName;
 
-        public string SurName
+        public string NAZWISKO
         {
             get { return _surName; }
             set { _surName = value; }
@@ -33,11 +33,14 @@ namespace StacjaBenzynowaMVVM.Models
 
         private string _position;
 
-        public string Position
+        public string POZYCJA
         {
             get { return _position; }
             set { _position = value; }
         }
 
+        public Employee()
+        {
+        }
     }
 }

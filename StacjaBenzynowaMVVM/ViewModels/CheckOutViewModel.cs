@@ -101,14 +101,14 @@ namespace StacjaBenzynowaMVVM.ViewModels
             double withDiscount = 0;
             foreach (Product p in CartItems)
             {
-                withDiscount += p.Price * (1-p.Discount) * p.Amount;
+                withDiscount += p.CENA * (1-p.RABAT) * p.ILOSC;
 
-                withOutDiscount += p.Price * p.Amount;
+                withOutDiscount += p.CENA * p.ILOSC;
             }
-            if(ClientClass!=null && ClientClass.Points>=10 && withDiscount>=200)
+            if(ClientClass!=null && ClientClass.PUNKTY>=10 && withDiscount>=200)
             {
-                ClientClass.Discount = 0.1;
-                withDiscount = withDiscount * (1-ClientClass.Discount);
+                ClientClass.RABAT = 0.1;
+                withDiscount = withDiscount * (1-ClientClass.RABAT);
             }
             Discount = withOutDiscount - withDiscount;
             Price = withOutDiscount;

@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Product: INotifyPropertyChanged
+    public class Product:BaseModel,INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -22,7 +22,7 @@ namespace StacjaBenzynowaMVVM.Models
         }
 
         private int _productID;
-        public int ProductID
+        public int ID_PRODUKTU
         {
             get { return _productID; }
             set { 
@@ -32,14 +32,14 @@ namespace StacjaBenzynowaMVVM.Models
         }
 
         private int _supplierID;
-        public int SupplierID
+        public int ID_DOSTAWCY
         {
             get { return _supplierID; }
             set { _supplierID = value; }
         }
 
         private int _amount;
-        public int Amount
+        public int ILOSC
         {
             get { return _amount; }
             set 
@@ -50,14 +50,14 @@ namespace StacjaBenzynowaMVVM.Models
         }
         private string _name;
 
-        public string Name
+        public string NAZWA
         {
             get { return _name; }
             set { _name = value; }
         }
         private double _price;
 
-        public double Price
+        public double CENA
         {
             get { return _price; }
             set { _price = value; }
@@ -65,7 +65,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private double _discount;
 
-        public double Discount
+        public double RABAT
         {
             get { return _discount; }
             set { _discount = value; }
@@ -73,7 +73,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private DateTime _deliveryDate;
 
-        public DateTime DeliveryDate
+        public DateTime DATA_DOSTAWY
         {
             get { return _deliveryDate; }
             set { _deliveryDate = value; }
@@ -86,17 +86,17 @@ namespace StacjaBenzynowaMVVM.Models
 
         public Product(Product product)
         {
-            ProductID = product.ProductID;
-            SupplierID = product.SupplierID;
-            Amount = product.Amount;
-            Name = product.Name;
-            Price = product.Price;
-            DeliveryDate = product.DeliveryDate;
-            ExpirationDate = product.ExpirationDate;
-            Discount = product.Discount;
+            ID_PRODUKTU = product.ID_PRODUKTU;
+            ID_DOSTAWCY = product.ID_DOSTAWCY;
+            ILOSC = product.ILOSC;
+            NAZWA = product.NAZWA;
+            CENA = product.CENA;
+            DATA_DOSTAWY = product.DATA_DOSTAWY;
+            DATA_WAZNOSCI = product.DATA_WAZNOSCI;
+            RABAT = product.RABAT;
         }
 
-        public DateTime ExpirationDate
+        public DateTime DATA_WAZNOSCI
         {
             get { return _expirationDate; }
             set { _expirationDate = value; }
@@ -104,28 +104,28 @@ namespace StacjaBenzynowaMVVM.Models
 
         public string FinalPrice
         {
-            get { return (Price * (1 - Discount)*Amount).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
+            get { return (CENA * (1 - RABAT)*ILOSC).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
         }
 
 
 
         public string PricePerOne
         {
-            get { return (Price * (1 - Discount)).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
+            get { return (CENA * (1 - RABAT)).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture); }
         }
 
         public int CheckExpDate()
         {
-            if(ExpirationDate.CompareTo(DateTime.Today)>0)
+            if(DATA_WAZNOSCI.CompareTo(DateTime.Today)>0)
             {
-                TimeSpan timeLeft = ExpirationDate.Subtract(DateTime.Today);
+                TimeSpan timeLeft = DATA_WAZNOSCI.Subtract(DateTime.Today);
                 int days = (timeLeft.Days/7)*5;
-                if (Discount == ((double)((100 - days))) / 100)
+                if (RABAT == ((double)((100 - days))) / 100)
                     return 0;
                 else
                 {
                     if (100 - days > 0)
-                        Discount = ((double)((100 - days)))/100;
+                        RABAT = ((double)((100 - days)))/100;
                     else
                         return 0;
                 }

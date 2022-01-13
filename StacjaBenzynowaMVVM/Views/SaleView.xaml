@@ -37,8 +37,8 @@
         <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding Product}"  x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3" MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding NAZWA}" />
+                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding ILOSC}" />
                     <GridViewColumn Header="Cena jednostkowa" DisplayMemberBinding="{Binding PricePerOne, StringFormat=#.00}" />
                 </GridView>
             </ListView.View>
@@ -47,8 +47,8 @@
         <ListView ItemsSource="{Binding CartItems}" SelectedItem="{Binding CartItem}" x:Name="Cart" Grid.Row="1" Grid.Column="4" MinHeight="200" MinWidth="150" Grid.RowSpan="3"  MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding NAZWA}" />
+                    <GridViewColumn Header="Ilość na stanie" DisplayMemberBinding="{Binding ILOSC}" />
                     <GridViewColumn Header="Cena" DisplayMemberBinding="{Binding FinalPrice, StringFormat=#.00}" />
                 </GridView>
             </ListView.View>

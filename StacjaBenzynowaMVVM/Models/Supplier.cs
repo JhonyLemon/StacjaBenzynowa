@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Supplier
+    public class Supplier : BaseModel
     {
         private int _supplierID;
-        public int SupplierID
+        public int ID_DOSTAWCY
         {
             get { return _supplierID; }
             set { _supplierID = value; }
         }
         private string _supplierName;
-        public string SupplierName
+        public string NAZWA_FIRMY
         {
             get { return _supplierName; }
             set { _supplierName = value; }

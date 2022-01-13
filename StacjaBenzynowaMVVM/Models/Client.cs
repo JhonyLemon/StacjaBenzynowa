@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Client
+    public class Client:BaseModel
     {
         private int _clientID;
 
-        public int ClientID
+        public int ID_KLIENTA
         {
             get { return _clientID; }
             set { _clientID = value; }
@@ -18,7 +18,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private string _firstName;
 
-        public string FirstName
+        public string IMIE
         {
             get { return _firstName; }
             set { _firstName = value; }
@@ -26,7 +26,7 @@ namespace StacjaBenzynowaMVVM.Models
 
         private string _surName;
 
-        public string SurName
+        public string NAZWISKO
         {
             get { return _surName; }
             set { _surName = value; }
@@ -42,20 +42,20 @@ namespace StacjaBenzynowaMVVM.Models
 
         private int _points;
 
-        public int Points
+        public int PUNKTY
         {
             get { return _points; }
             set { _points = value; }
         }
 
-        public double Discount { get; set; }
+        public double RABAT { get; set; }
 
         public string GetClientID()
         {
-            if (ClientID == 0)
+            if (ID_KLIENTA == 0)
                 return null;
             else
-                return ClientID.ToString();
+                return ID_KLIENTA.ToString();
         }
     }
 }

@@ -20,9 +20,9 @@ namespace StacjaBenzynowaLibrary
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
-        public static List<Dictionary<string, string>> GetImportedData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
+        public static List<Dictionary<string, object>> GetImportedData(string statement, List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
         {
-            List<Dictionary<string, string>> imported = new List<Dictionary<string, string>>();
+            List<Dictionary<string, object>> imported = new List<Dictionary<string, object>>();
             using (connection = new SQLiteConnection(LoadConnectionString()))
             {
                 connection.Open();
@@ -37,7 +37,7 @@ namespace StacjaBenzynowaLibrary
                     SQLiteDataReader r = command.ExecuteReader();
                     while (r.Read())
                     {
-                        Dictionary<string, string> map = new Dictionary<string, string>();
+                        Dictionary<string, object> map = new Dictionary<string, object>();
                         foreach (KeyValuePair<KeyValuePair<string, string>, string> value in parameters)
                         {
                             try

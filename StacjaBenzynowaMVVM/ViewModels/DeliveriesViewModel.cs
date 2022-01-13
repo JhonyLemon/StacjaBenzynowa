@@ -160,7 +160,7 @@ namespace StacjaBenzynowa.ViewModels
         }
         public void ChangeAmount()
         {
-            Product.Amount = Amount;
+            Product.ILOSC = Amount;
             Amount = 0;
             Product = null;
         }
@@ -180,12 +180,12 @@ namespace StacjaBenzynowa.ViewModels
         public void AddToCart()
         {
             Product product = new Product();
-            product.Name = Name;
-            product.Amount = Amount;
-            product.SupplierID = Supplier.SupplierID;
-            product.Price = Price;
+            product.NAZWA = Name;
+            product.ILOSC = Amount;
+            product.ID_DOSTAWCY = Supplier.ID_DOSTAWCY;
+            product.CENA = Price;
             if (ExpDate > DateTime.Today)
-                product.ExpirationDate = ExpDate;
+                product.DATA_WAZNOSCI = ExpDate;
             Products.Add(product);
             Amount = 0;
             Supplier = null;
