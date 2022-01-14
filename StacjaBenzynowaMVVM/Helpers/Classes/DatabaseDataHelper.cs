@@ -16,7 +16,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
 
         public static ObservableCollection<Product> GetProducts()
         {
-            return DatabaseClassesHelper.GetProductsList
+            return DatabaseClassesHelper.GetModels<Product>
                 (
                     DataBaseAccess.GetImportedData
                     (
@@ -46,7 +46,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                     new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
                     new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP",""),"")
                 });
-            client= DatabaseClassesHelper.GetClientClass(answer);
+            client= DatabaseClassesHelper.GetModel<Client>(answer);
             if(client!=null)
             {
                 answer = DataBaseAccess.GetImportedData("SELECT SUM(IFNULL(PUNKTY,0)-(IFNULL(RABAT,0)*100)) AS PUNKTY FROM ZAMOWIENIA WHERE ID_KLIENTA=@id",
@@ -183,7 +183,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
 
         public static Employee GetEmployee(string userName, string password)
         {
-            return DatabaseClassesHelper.GetEmployee
+            return DatabaseClassesHelper.GetModel<Employee>
                 (
                     DataBaseAccess.GetImportedData
                     (
@@ -203,7 +203,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
 
         public static ObservableCollection<Supplier> GetSuppliers()
         {
-            return DatabaseClassesHelper.GetSuppliers
+            return DatabaseClassesHelper.GetModels<Supplier>
                 (
                     DataBaseAccess.GetImportedData
                     (
