@@ -7,6 +7,71 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   HorizontalAlignment="Center" FontSize="48" Margin="0 0 0 40">
+            Dodawanie pracownika
+        </TextBlock>
+
+        <TextBlock Grid.Row="1" Grid.Column="1" FontSize="14">
+            Imię
+        </TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="EmployeeName"></TextBox>
+
+        <TextBlock Grid.Row="3" Grid.Column="1" FontSize="14">
+            Nazwisko
+        </TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="EmployeeSurname"></TextBox>
+
+        <TextBlock Grid.Row="5" Grid.Column="1" FontSize="14">
+            Pozycja
+        </TextBlock>
+        <ComboBox Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="EmployeePosition" SelectedItem="{Binding EmployeePosition}">
+            <ComboBoxItem>
+                <TextBlock FontSize="18">Właściciel</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock FontSize="18">Kierownik</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock FontSize="18">Kasjer</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock FontSize="18">Pracownik podjazdu</TextBlock>
+            </ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock Grid.Row="7" Grid.Column="1" FontSize="14">
+            Login
+        </TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="EmployeeLogin"></TextBox>
+
+        <TextBlock Grid.Row="9" Grid.Column="1" FontSize="14">
+            Hasło
+        </TextBlock>
+        <PasswordBox Grid.Row="10" Grid.Column="1" FontSize="18" Margin="0 0 0 20" x:Name="EmployeePassword"></PasswordBox>
+
+        <Button Grid.Row="11" Grid.Column="1" HorizontalAlignment="Center" 
+                x:Name="AddEmployee" Padding="50 5" FontSize="18">Dodaj</Button>
     </Grid>
 </UserControl>

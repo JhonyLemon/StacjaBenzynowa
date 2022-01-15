@@ -50,6 +50,6 @@
                    Foreground="Green" HorizontalAlignment="Center"></TextBlock>
         
         <Button Grid.Row="8" Grid.Column="1" HorizontalAlignment="Center" 
-                x:Name="AddClient" Padding="50 5" FontSize="18">Dodaj klienta</Button>
+                x:Name="AddClient" Padding="50 5" FontSize="18">Dodaj</Button>
     </Grid>
 </UserControl>
