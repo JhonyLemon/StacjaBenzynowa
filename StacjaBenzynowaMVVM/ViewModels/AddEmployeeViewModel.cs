@@ -13,11 +13,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
 {
     class AddEmployeeViewModel:Screen
     {
-        private string _employeeName = "";
-        private string _employeeSurname = "";
-        private string _employeeLogin = "";
+        private string _employeeName;
+        private string _employeeSurname;
+        private string _employeeLogin;
         private string _employeePosition;
-        private string _employeePassword = "";
+        private string _employeePassword;
 
 
         public string EmployeePassword
@@ -27,6 +27,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             { 
                 _employeePassword = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
+                NotifyOfPropertyChange(() => EmployeePassword);
             }
         }
 
@@ -49,6 +50,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             { 
                 _employeeLogin = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
+                NotifyOfPropertyChange(() => EmployeeLogin);
             }
         }
 
@@ -60,6 +62,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             {
                 _employeeSurname = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
+                NotifyOfPropertyChange(() => EmployeeSurname);
             }
         }
 
@@ -70,6 +73,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             { 
                 _employeeName = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
+                NotifyOfPropertyChange(() => EmployeeName);
             }
         }
 
@@ -81,7 +85,6 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
                 if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0)
                     output = true;
-
                 return output;
             }
         }
