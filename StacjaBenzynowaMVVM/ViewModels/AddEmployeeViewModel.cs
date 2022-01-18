@@ -15,19 +15,40 @@ namespace StacjaBenzynowaMVVM.ViewModels
 {
     class AddEmployeeViewModel:Screen
     {
-        private string _employeeName;
-        private string _employeeSurname;
+        private string _employeeName = "";
+        private string _employeeSurname = "";
         private string _employeeLogin;
         private string _employeePosition;
         private string _employeePassword;
         private string _message;
-        private ObservableCollection<string> Positions { get; set; } = new ObservableCollection<string>()
+        private ObservableCollection<string> _positions;
+        private IEventAggregator _eventAggregator;
+
+        public AddEmployeeViewModel(IEventAggregator eventAggregator)
         {
-            "Właściciel",
-            "Kierownik",
-            "Kasjer",
-            "Pracownik podjazdu",
-        };
+            AddPositions();
+            _eventAggregator = eventAggregator;
+        }
+
+        public void AddPositions()
+        {
+            _positions = new ObservableCollection<string>();
+            _positions.Add("Właściciel");
+            _positions.Add("Kierownik");
+            _positions.Add("Kasjer");
+            _positions.Add("Pracownik podjazdu");
+        }
+
+        public ObservableCollection<string> Positions
+        {
+            get { return _positions; }
+            set 
+            { 
+                _positions = value; 
+            }
+        }
+
+
 
         public string Message
         {
@@ -59,6 +80,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             set 
             {
                 _employeePosition = value;
+                NotifyOfPropertyChange(() => EmployeePosition);
                 NotifyOfPropertyChange(() => CanAddEmployee);
             }
         }
@@ -106,7 +128,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 bool output = false;
 
                 if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0
-                    && EmployeePosition != null && EmployeeName.Length > 0 && EmployeeSurname.Length > 0)
+                    && EmployeePosition != null && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z]+$") && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z]+$"))
                     output = true;
                 return output;
             }
@@ -115,6 +137,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public void AddEmployee()
         {
             DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
+            EmployeeName = "";
+            EmployeeSurname = "";
             EmployeePosition = null;
             EmployeeLogin = null;
             EmployeePassword = null;
