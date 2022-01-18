@@ -72,6 +72,20 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
         }
 
+        public static int SetEmployee(string name, string surname, string position, string login, string password)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA", "@pozycja"), position),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN", "@login"), login),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO", "@haslo"), password),
+            };
+            KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
+            return DataBaseAccess.SetData("INSERT INTO PRACOWNICY (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
+        }
+
         public static int SetSupplier(string name)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>

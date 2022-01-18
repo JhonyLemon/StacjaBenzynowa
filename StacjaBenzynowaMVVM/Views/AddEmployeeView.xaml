@@ -25,6 +25,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -46,19 +47,12 @@
         <TextBlock Grid.Row="5" Grid.Column="1" FontSize="14">
             Pozycja
         </TextBlock>
-        <ComboBox Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" FontSize="18" x:Name="EmployeePosition" SelectedItem="{Binding EmployeePosition}">
-            <ComboBoxItem>
-                <TextBlock FontSize="18">Właściciel</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock FontSize="18">Kierownik</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock FontSize="18">Kasjer</TextBlock>
-            </ComboBoxItem>
-            <ComboBoxItem>
-                <TextBlock FontSize="18">Pracownik podjazdu</TextBlock>
-            </ComboBoxItem>
+        <ComboBox Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" FontSize="18" ItemsSource="{Binding Path=Positions}">
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding}"></TextBlock>
+                </StackPanel>
+            </DataTemplate>  
         </ComboBox>
 
         <TextBlock Grid.Row="7" Grid.Column="1" FontSize="14">
@@ -71,7 +65,10 @@
         </TextBlock>
         <PasswordBox x:Name="EmployeePassword" Grid.Row="10" Grid.Column="1" FontSize="18" Margin="0 0 0 20"/>
 
-        <Button Grid.Row="11" Grid.Column="1" HorizontalAlignment="Center" 
+        <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Row="11" Grid.Column="1" FontSize="14" 
+                   Foreground="Green" HorizontalAlignment="Center"></TextBlock>
+        
+        <Button Grid.Row="12" Grid.Column="1" HorizontalAlignment="Center" 
                 x:Name="AddEmployee" Padding="50 5" FontSize="18">Dodaj</Button>
     </Grid>
 </UserControl>

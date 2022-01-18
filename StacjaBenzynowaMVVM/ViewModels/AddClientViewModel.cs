@@ -66,9 +66,20 @@ namespace StacjaBenzynowa.ViewModels
         {
             get{
                 Message = "";
-                if (Regex.IsMatch(ClientName, @"^[a-zA-Z]+$") == true && Regex.IsMatch(ClientSurname, @"^[a-zA-Z]+$") == true && 
-                    Regex.IsMatch(ClientNIP, @"^[0-9]+$") == true && ClientNIP.Length == 10)
-                    return true;
+                if (Regex.IsMatch(ClientName, @"^[a-zA-Z]+$") == true && Regex.IsMatch(ClientSurname, @"^[a-zA-Z]+$") == true)
+                {
+                    if (ClientNIP.Length == 10)
+                    {
+                        if (Regex.IsMatch(ClientNIP, @"^[0-9]+$") == true)
+                            return true;
+                        else
+                            return false;
+                    }
+                    else if (ClientNIP.Length == 0)
+                        return true;
+
+                    return false;
+                }
                 else
                     return false;
             }

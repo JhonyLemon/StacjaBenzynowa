@@ -2,8 +2,10 @@
 using System;
 using StacjaBenzynowaMVVM.EventModels;
 using StacjaBenzynowaMVVM.Helpers.Classes;
+using StacjaBenzynowaMVVM.Helpers;
 using StacjaBenzynowaMVVM.Models;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,25 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private string _employeeLogin;
         private string _employeePosition;
         private string _employeePassword;
+        private string _message;
+        private ObservableCollection<string> Positions { get; set; } = new ObservableCollection<string>()
+        {
+            "Właściciel",
+            "Kierownik",
+            "Kasjer",
+            "Pracownik podjazdu",
+        };
+
+        public string Message
+        {
+            get { return _message; }
+            set 
+            {
+                _message = value;
+                NotifyOfPropertyChange(() => Message);
+            }
+        }
+
 
 
         public string EmployeePassword
@@ -81,9 +102,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get
             {
+                Message = "";
                 bool output = false;
 
-                if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0)
+                if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0
+                    && EmployeePosition != null && EmployeeName.Length > 0 && EmployeeSurname.Length > 0)
                     output = true;
                 return output;
             }
@@ -91,7 +114,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void AddEmployee()
         {
-
+            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
+            EmployeePosition = null;
+            EmployeeLogin = null;
+            EmployeePassword = null;
+            Message = "Pracownik zostal dodany do bazy danych";
         }
     }
 }
