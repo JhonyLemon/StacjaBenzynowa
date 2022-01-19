@@ -14,13 +14,13 @@
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="Sprzedaż" x:Name="Sale"/>
-            <MenuItem Header="Dostawy">
+            <MenuItem Header="Dostawy"  Visibility="{Binding Path=DeliveriesVisibility,Mode=OneWay}">
                 <MenuItem Header="Dostawa" x:Name="Deliveries"/>
                 <MenuItem Header="Dodaj dostawce" x:Name="AddSupplier"/>
             </MenuItem>
             <MenuItem Header="Wyloguj" x:Name="Logout"/>
-            <MenuItem Header="Dodaj klienta" x:Name="AddClient"/>
-            <MenuItem Header="Dodaj pracownika" x:Name="AddEmployee"/>
+            <MenuItem Header="Dodaj klienta" x:Name="AddClient"  Visibility="{Binding Path=AddClientVisibility,Mode=OneWay}"/>
+            <MenuItem Header="Dodaj pracownika" x:Name="AddEmployee"  Visibility="{Binding Path=AddEmployeeVisibility,Mode=OneWay}"/>
             <MenuItem Header="Powiadomienia" x:Name="Notifications" HorizontalAlignment="Right" Foreground="{Binding Path=NotificationColor, Mode=OneWay}"></MenuItem>
         </Menu>
         <Grid>

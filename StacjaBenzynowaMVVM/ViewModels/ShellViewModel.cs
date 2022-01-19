@@ -14,12 +14,15 @@ using System.Windows.Media;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSale>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSaleOnEventModel>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>
     {
 
         private DispatcherTimer _expirationDateChecker = new DispatcherTimer();
         private Brush _notificationColor = Brushes.Black;
         private Visibility _menuVisibility= Visibility.Hidden;
+        private Visibility _deliveriesVisibility = Visibility.Collapsed;
+        private Visibility _addClientVisibility = Visibility.Collapsed;
+        private Visibility _addEmployeeVisibility = Visibility.Collapsed;
         private LoginViewModel _loginViewModel;
         private SaleViewModel _saleViewModel;
         private AddClientViewModel _addClientViewModel;
@@ -73,6 +76,36 @@ namespace StacjaBenzynowaMVVM.ViewModels
             }
         }
 
+        public Visibility DeliveriesVisibility
+        {
+            get { return _deliveriesVisibility; }
+            set
+            {
+                _deliveriesVisibility = value;
+                NotifyOfPropertyChange(() => DeliveriesVisibility);
+            }
+        }
+
+        public Visibility AddClientVisibility
+        {
+            get { return _addClientVisibility; }
+            set
+            {
+                _addClientVisibility = value;
+                NotifyOfPropertyChange(() => AddClientVisibility);
+            }
+        }
+
+        public Visibility AddEmployeeVisibility
+        {
+            get { return _addEmployeeVisibility; }
+            set
+            {
+                _addEmployeeVisibility = value;
+                NotifyOfPropertyChange(() => AddEmployeeVisibility);
+            }
+        }
+
         public Brush NotificationColor
         {
             get { return _notificationColor; }
@@ -86,8 +119,39 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             previouslyActive = (Screen)ActiveItem;
             DeactivateItem(_loginViewModel, false);
-            ActivateItem(_saleViewModel);
             MenuVisibility = Visibility.Visible;
+            switch (_loginViewModel.Employee.POZYCJA)
+            {
+                case "Właściciel":
+                    {
+                        DeliveriesVisibility = Visibility.Visible;
+                        AddClientVisibility = Visibility.Visible;
+                        AddEmployeeVisibility = Visibility.Visible;
+                        break;
+                    }
+                case "Kierownik":
+                    {
+                        DeliveriesVisibility = Visibility.Visible;
+                        AddClientVisibility = Visibility.Visible;
+                        AddEmployeeVisibility = Visibility.Visible;
+                        break;
+                    }
+                case "Kasjer":
+                    {
+                        DeliveriesVisibility = Visibility.Visible;
+                        AddClientVisibility = Visibility.Collapsed;
+                        AddEmployeeVisibility = Visibility.Collapsed;
+                        break;
+                    }
+                case "Pracownik podjazdu":
+                    {
+                        DeliveriesVisibility = Visibility.Collapsed;
+                        AddClientVisibility = Visibility.Collapsed;
+                        AddEmployeeVisibility = Visibility.Collapsed;
+                        break;
+                    }
+            }
+            ActivateItem(_saleViewModel);
             _dispatcherTimer_Tick(this, null);
         }
 
@@ -143,7 +207,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             ActivateItem(previouslyActive);
         }
 
-        public void Handle(ConfirmSale message)
+        public void Handle(ConfirmSaleOnEventModel message)
         {
             previouslyActive = (Screen)ActiveItem;
             ActivateItem(_checkOutViewModel);

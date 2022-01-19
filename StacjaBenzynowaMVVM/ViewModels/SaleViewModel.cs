@@ -203,7 +203,7 @@ namespace StacjaBenzynowa.ViewModels
         }
         public void ConfirmCart()
         {
-            _eventAggregator.PublishOnUIThread(new ConfirmSale(CartItems));
+            _eventAggregator.PublishOnUIThread(new ConfirmSaleOnEventModel(CartItems));
         }
 
         public void RemoveZeroItems()

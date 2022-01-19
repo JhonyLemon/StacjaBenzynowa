@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.EventModels
 {
-    class ConfirmSale
+    class ConfirmSaleOnEventModel
     {
         public ObservableCollection<Product> cartItems;
 
-        public ConfirmSale(ObservableCollection<Product> cartItems)
+        public ConfirmSaleOnEventModel(ObservableCollection<Product> cartItems)
         {
             this.cartItems = cartItems;
         }

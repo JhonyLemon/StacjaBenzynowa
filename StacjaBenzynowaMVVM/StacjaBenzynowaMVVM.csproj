@@ -90,8 +90,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventModels\AddNotificationsOnEvent.cs" />
-    <Compile Include="EventModels\ConfirmDelivery.cs" />
-    <Compile Include="EventModels\ConfirmSale.cs" />
+    <Compile Include="EventModels\ConfirmDeliveryOnEventModel.cs" />
+    <Compile Include="EventModels\ConfirmSaleOnEventModel.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="EventModels\LogOutOnEvent.cs" />
     <Compile Include="EventModels\NotificationCheckOnEvent.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.EventModels
 {
-    class ConfirmDelivery
+    class ConfirmDeliveryOnEventModel
     {
     }
 }
