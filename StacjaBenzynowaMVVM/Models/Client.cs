@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Client:BaseModel
+    public class Client
     {
         private int _clientID;
 

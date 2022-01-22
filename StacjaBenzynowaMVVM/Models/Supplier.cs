@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Supplier : BaseModel
+    public class Supplier
     {
         private int _supplierID;
         public int ID_DOSTAWCY

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Employee:BaseModel
+    public class Employee
     {
         private int _employeeID;
         public int ID_PRACOWNIKA

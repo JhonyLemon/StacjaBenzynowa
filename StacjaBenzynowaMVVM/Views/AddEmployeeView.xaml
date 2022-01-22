@@ -50,7 +50,7 @@
         <ComboBox Grid.Row="6" Grid.Column="1" Margin="0 0 0 10" FontSize="18" ItemsSource="{Binding Positions}" SelectedItem="{Binding EmployeePosition}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}"></TextBlock>
+                    <TextBlock Text="{Binding STANOWISKO}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class Product:BaseModel,INotifyPropertyChanged
+    public class Product:INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

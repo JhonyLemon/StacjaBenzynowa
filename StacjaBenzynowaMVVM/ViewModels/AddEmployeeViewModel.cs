@@ -18,28 +18,20 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private string _employeeName = "";
         private string _employeeSurname = "";
         private string _employeeLogin;
-        private string _employeePosition;
+        private Position _employeePosition;
         private string _employeePassword;
         private string _message;
-        private ObservableCollection<string> _positions;
+        private ObservableCollection<Position> _positions;
         private IEventAggregator _eventAggregator;
 
         public AddEmployeeViewModel(IEventAggregator eventAggregator)
         {
-            AddPositions();
             _eventAggregator = eventAggregator;
+            _positions = DatabaseDataHelper.GetPositions();
         }
 
-        public void AddPositions()
-        {
-            _positions = new ObservableCollection<string>();
-            _positions.Add("Właściciel");
-            _positions.Add("Kierownik");
-            _positions.Add("Kasjer");
-            _positions.Add("Pracownik podjazdu");
-        }
 
-        public ObservableCollection<string> Positions
+        public ObservableCollection<Position> Positions
         {
             get { return _positions; }
             set 
@@ -74,7 +66,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         }
 
 
-        public string EmployeePosition
+        public Position EmployeePosition
         {
             get { return _employeePosition; }
             set 
@@ -136,7 +128,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void AddEmployee()
         {
-            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
+            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition.ID_STANOWISKA, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
             EmployeeName = "";
             EmployeeSurname = "";
             EmployeePosition = null;

@@ -72,13 +72,13 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
         }
 
-        public static int SetEmployee(string name, string surname, string position, string login, string password)
+        public static int SetEmployee(string name, string surname, int position, string login, string password)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname),
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA", "@pozycja"), position),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_STANOWISKA", "@pozycja"), position.ToString()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN", "@login"), login),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO", "@haslo"), password),
             };
@@ -201,7 +201,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 (
                     DataBaseAccess.GetImportedData
                     (
-                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,POZYCJA FROM PRACOWNICY WHERE LOGIN=@login AND HASLO=@password",
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,S.STANOWISKO AS POZYCJA FROM PRACOWNICY P LEFT OUTER JOIN STANOWISKA S ON P.ID_STANOWISKA=S.ID_STANOWISKA WHERE LOGIN=@login AND HASLO=@password",
                         new List<KeyValuePair<KeyValuePair<string, string>, string>>
                         {
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
@@ -226,6 +226,22 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                         {
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA_FIRMY",""),"")
+                        }
+                    )
+               );
+        }
+
+        public static ObservableCollection<Position> GetPositions()
+        {
+            return DatabaseClassesHelper.GetModels<Position>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM STANOWISKA",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_STANOWISKA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("STANOWISKO",""),"")
                         }
                     )
                );

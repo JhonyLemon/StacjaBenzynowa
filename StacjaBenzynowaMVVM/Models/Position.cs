@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.Models
 {
-    public class BaseModel
+    public class Position
     {
-        public BaseModel()
-        {
-        }
+        public int ID_STANOWISKA { get; set; }
+        public string STANOWISKO { get; set; }
     }
 }
