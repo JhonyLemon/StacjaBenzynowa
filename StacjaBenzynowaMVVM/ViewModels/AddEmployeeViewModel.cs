@@ -120,7 +120,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 bool output = false;
 
                 if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0
-                    && EmployeePosition != null && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z]+$") && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z]+$"))
+                    && EmployeePosition != null && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z-żŻźŹąĄęĘśŚóÓłŁćĆńŃ]+$") && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z-żŻźŹąĄęĘśŚóÓłŁćĆńŃ]+$"))
                     output = true;
                 return output;
             }
