@@ -39,6 +39,7 @@
         <StackPanel Grid.Column="3" Grid.Row="4">
             <TextBlock TextAlignment="Center" FontSize="12" Margin="0 0 0 5">Klient:</TextBlock>
             <TextBox x:Name="Client"></TextBox>
+            <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="257" Height="30" Background="#00000000" Foreground="{Binding Path=Color, Mode=OneWay}"></TextBlock>
         </StackPanel>
 
         <Button  x:Name="ConfirmCart" Grid.Column="3" Grid.Row="5" Margin="10 10 10 10">Zatwierdz</Button>

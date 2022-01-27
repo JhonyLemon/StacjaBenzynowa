@@ -41,7 +41,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 (
                     DataBaseAccess.GetImportedData
                     (
-                        "SELECT * FROM PRACOWNICY WHERE ZATRUDNIONY==1",
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,Z.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY LEFT OUTER JOIN STANOWISKA Z ON PRACOWNICY.ID_STANOWISKA=Z.ID_STANOWISKA WHERE ZATRUDNIONY==1",
                         new List<KeyValuePair<KeyValuePair<string, string>, string>>
                         {
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
@@ -130,7 +130,10 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC", "@ilosc"), p.ILOSC.ToString()));
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA", "@cena"), p.CENA.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)));
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_DOSTAWY", "@deliverDate"), p.DATA_DOSTAWY.ToString()));
-                parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), p.DATA_WAZNOSCI.ToString()));
+                if(p.DATA_WAZNOSCI.Equals(new DateTime()))
+                    parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), ""));
+                else
+                    parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WAZNOSCI", "@expDate"), p.DATA_WAZNOSCI.ToString()));
                 parameter.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_DOSTAWCY", "@id"), p.ID_DOSTAWCY.ToString()));
                 param = InsertParametersToString(parameter);
                 statement = "INSERT INTO PRODUKTY (" + param.Key + ") VALUES (" + param.Value + ")";

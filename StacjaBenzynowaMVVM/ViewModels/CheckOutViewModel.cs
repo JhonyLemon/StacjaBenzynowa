@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
@@ -17,11 +18,33 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private Client _clientClass;
         private IEventAggregator _eventAggregator;
         private Employee _employee;
+        private string _message;
+        private Brush _color = Brushes.Black;
 
 
         public CheckOutViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+        }
+
+        public string Message
+        {
+            get { return _message; }
+            set 
+            {
+                _message = value;
+                NotifyOfPropertyChange(()=>Message);
+            }
+        }
+
+        public Brush Color
+        {
+            get { return _color; }
+            set
+            {
+                _color = value;
+                NotifyOfPropertyChange(() => Color);
+            }
         }
 
         public Client ClientClass
@@ -119,6 +142,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get
             {
+                Message = "";
                 bool check = true;
                 if (Client!=null)
                 {
@@ -126,7 +150,10 @@ namespace StacjaBenzynowaMVVM.ViewModels
                     if (ClientClass != null)
                     {
                         RecalculatePrice();
+                        Message = "Pomyslnie wybrano klienta";
                     }
+                    else
+                        Message = "Bledny identyfikator klienta";
                 }
                 else if(ClientClass!=null)
                 {

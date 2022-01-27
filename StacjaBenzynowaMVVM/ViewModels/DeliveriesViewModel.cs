@@ -184,8 +184,11 @@ namespace StacjaBenzynowa.ViewModels
             product.ILOSC = Amount;
             product.ID_DOSTAWCY = Supplier.ID_DOSTAWCY;
             product.CENA = Price;
+            product.DATA_DOSTAWY = DateTime.Now;
             if (ExpDate > DateTime.Today)
+            {
                 product.DATA_WAZNOSCI = ExpDate;
+            }
             Products.Add(product);
             Amount = 0;
             Supplier = null;
@@ -224,6 +227,7 @@ namespace StacjaBenzynowa.ViewModels
         }
         public void ConfirmDelivery()
         {
+
             if (DatabaseDataHelper.SetProducts(Products) == 0)
             {
                 Product = null;
