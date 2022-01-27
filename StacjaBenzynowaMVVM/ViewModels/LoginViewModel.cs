@@ -82,7 +82,7 @@ namespace StacjaBenzynowa.ViewModels
             {
                 _eventAggregator.PublishOnUIThread(new LogOnEvent());
                 UserName = "";
-                Password = "";
+                Password = null;
             }
         }
 

@@ -9,18 +9,32 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Text.RegularExpressions;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
     class AddEmployeeViewModel:Screen
     {
+        public Employee Employee { get; set; }
         private string _employeeName = "";
         private string _employeeSurname = "";
         private string _employeeLogin;
         private Position _employeePosition;
         private string _employeePassword;
         private string _message;
+        private Brush _messageColor;
+
+        public Brush MessageColor
+        {
+            get { return _messageColor; }
+            set 
+            { 
+                _messageColor = value;
+                NotifyOfPropertyChange(() => MessageColor);
+            }
+        }
+
         private ObservableCollection<Position> _positions;
         private IEventAggregator _eventAggregator;
 
@@ -128,13 +142,23 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void AddEmployee()
         {
-            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition.ID_STANOWISKA,1, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
-            EmployeeName = "";
-            EmployeeSurname = "";
-            EmployeePosition = null;
-            EmployeeLogin = null;
-            EmployeePassword = null;
-            Message = "Pracownik zostal dodany do bazy danych";
+            Employee = DatabaseDataHelper.GetEmployeeLogin(EmployeeLogin);
+            if (Employee.ID_PRACOWNIKA == 0)
+            {
+                DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition.ID_STANOWISKA, 1, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
+                EmployeeName = "";
+                EmployeeSurname = "";
+                EmployeePosition = null;
+                EmployeeLogin = null;
+                EmployeePassword = null;
+                MessageColor = Brushes.Green;
+                Message = "Pracownik zostal dodany do bazy danych";
+            }
+            else
+            {
+                MessageColor = Brushes.Red;
+                Message = "Ten login jest już zajęty";
+            }
         }
     }
 }

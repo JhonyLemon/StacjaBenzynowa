@@ -66,7 +66,7 @@
         <PasswordBox x:Name="EmployeePassword" Grid.Row="10" Grid.Column="1" FontSize="18" Margin="0 0 0 20"/>
 
         <TextBlock Text="{Binding Path=Message, Mode=OneWay}" Grid.Row="11" Grid.Column="1" FontSize="14" 
-                   Foreground="Green" HorizontalAlignment="Center"></TextBlock>
+                   Foreground="{Binding Path=MessageColor, Mode=OneWay}" HorizontalAlignment="Center"></TextBlock>
         
         <Button Grid.Row="12" Grid.Column="1" HorizontalAlignment="Center" 
                 x:Name="AddEmployee" Padding="50 5" FontSize="18">Dodaj</Button>

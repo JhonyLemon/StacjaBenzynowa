@@ -250,6 +250,28 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                );
         }
 
+        public static Employee GetEmployeeLogin(string userName)
+        {
+            return DatabaseClassesHelper.GetModel<Employee>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,S.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY P LEFT OUTER JOIN STANOWISKA S ON P.ID_STANOWISKA=S.ID_STANOWISKA WHERE LOGIN=@login",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN","@login"),userName),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO","@password"), "")
+                        }
+                    )
+               );
+        }
+
+
         public static ObservableCollection<Supplier> GetSuppliers()
         {
             return DatabaseClassesHelper.GetModels<Supplier>
