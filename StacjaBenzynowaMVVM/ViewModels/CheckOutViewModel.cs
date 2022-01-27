@@ -120,9 +120,9 @@ namespace StacjaBenzynowaMVVM.ViewModels
             get
             {
                 bool check = true;
-                if (Client!=null && Client.Length == 16)
+                if (Client!=null)
                 {
-                    ClientClass = DatabaseDataHelper.GetClient(Client.Replace('0', ' ').Trim());
+                    ClientClass = DatabaseDataHelper.GetClient(Client);
                     if (ClientClass != null)
                     {
                         RecalculatePrice();
