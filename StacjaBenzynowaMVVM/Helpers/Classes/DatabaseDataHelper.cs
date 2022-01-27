@@ -35,6 +35,25 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 );
         }
 
+        public static ObservableCollection<Employee> GetEmployees()
+        {
+            return DatabaseClassesHelper.GetModels<Employee>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM PRACOWNICY WHERE ZATRUDNIONY==1",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY",""),""),
+                        }
+                    )
+                );
+        }
+
         public static Client GetClient(string cardCode)
         {
             Client client=null;
@@ -72,13 +91,14 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
         }
 
-        public static int SetEmployee(string name, string surname, int position, string login, string password)
+        public static int SetEmployee(string name, string surname, int position, int empoyed, string login, string password)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_STANOWISKA", "@pozycja"), position.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY", "@zatrudniony"), empoyed.ToString()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN", "@login"), login),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO", "@haslo"), password),
             };
@@ -174,6 +194,20 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return DataBaseAccess.SetDataTransaction(statements, parameters);
         }
 
+        public static int UpdateEmployee(Employee employee)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), employee.IMIE),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), employee.NAZWISKO),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_STANOWISKA", "@pozycja"), employee.POZYCJA),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY", "@zatrudniony"), employee.ZATRUDNIONY.ToString()),
+            };
+            string parameter = UpdateParametersToString(parameters);
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA", "@id"), employee.ID_PRACOWNIKA.ToString()));
+            return DataBaseAccess.SetData("UPDATE PRACOWNICY SET "+parameter+ " WHERE ID_PRACOWNIKA=@id", parameters);
+        }
+
         public static int SetExpiredProducts(List<Product> products)
         {
             List<string> statements = new List<string>();
@@ -201,13 +235,14 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 (
                     DataBaseAccess.GetImportedData
                     (
-                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,S.STANOWISKO AS POZYCJA FROM PRACOWNICY P LEFT OUTER JOIN STANOWISKA S ON P.ID_STANOWISKA=S.ID_STANOWISKA WHERE LOGIN=@login AND HASLO=@password",
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,S.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY P LEFT OUTER JOIN STANOWISKA S ON P.ID_STANOWISKA=S.ID_STANOWISKA WHERE LOGIN=@login AND HASLO=@password",
                         new List<KeyValuePair<KeyValuePair<string, string>, string>>
                         {
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN","@login"),userName),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO","@password"),PasswordHashHelper.HashPassword(password))
                         }
@@ -260,6 +295,18 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             key = key.Remove(key.Length - 1, 1);
             value = value.Remove(value.Length - 1, 1);
             return new KeyValuePair<string, string>(key,value);
+        }
+
+        public static string UpdateParametersToString(List<KeyValuePair<KeyValuePair<string, string>, string>> parameters)
+        {
+            string s = "";
+
+            foreach (KeyValuePair<KeyValuePair<string, string>, string> pair in parameters)
+            {
+                s += pair.Key.Key+"="+pair.Key.Value + ",";
+            }
+            s = s.Remove(s.Length - 1, 1);
+            return s;
         }
 
     }

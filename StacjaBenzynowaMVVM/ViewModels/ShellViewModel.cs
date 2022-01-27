@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSaleOnEventModel>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSaleOnEventModel>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>, IHandle<DeleteEmployeeOnEventModel>
     {
 
         private DispatcherTimer _expirationDateChecker = new DispatcherTimer();
@@ -32,9 +32,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private AddSupplierViewModel _addSupplierViewModel;
         private AddEmployeeViewModel _addEmployeeViewModel;
         private NotificationsViewModel _notificationsViewModel;
+        private DeleteEmployeeViewModel _deleteEmployeeViewModel;
+        private EmployeeListViewModel _employeeListViewModel;
         private IEventAggregator _eventAggregator;
         private Screen previouslyActive;
-        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel)
+        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel, DeleteEmployeeViewModel deleteEmployeeViewModel, EmployeeListViewModel employeeListViewModel)
         {
             _loginViewModel = loginViewModel;
             _eventAggregator = eventAggregator;
@@ -46,6 +48,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _addSupplierViewModel = addSupplierViewModel;
             _addEmployeeViewModel = addEmployeeViewModel;
             _notificationsViewModel = notificationsViewModel;
+            _deleteEmployeeViewModel = deleteEmployeeViewModel;
+            _employeeListViewModel = employeeListViewModel;
             _expirationDateChecker.Interval = TimeSpan.FromHours(1);
             _expirationDateChecker.Tick += _dispatcherTimer_Tick;
             _eventAggregator.Subscribe(this);
@@ -189,6 +193,14 @@ namespace StacjaBenzynowaMVVM.ViewModels
             ActivateItem(_notificationsViewModel);
         }
 
+        public void EmployeeList()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            _employeeListViewModel.employee = _loginViewModel.Employee;
+            _employeeListViewModel.UpdateList();
+            ActivateItem(_employeeListViewModel);
+        }
+
         public void AddEmployee()
         {
             previouslyActive = (Screen)ActiveItem;
@@ -245,6 +257,27 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public void Handle(NotificationCheckOnEvent message)
         {
             NotificationsCheck();
+        }
+
+        public void Handle(DeleteEmployeeOnEventModel message)
+        {
+            if (message.state == 1)
+            {
+                previouslyActive = (Screen)ActiveItem;
+                _deleteEmployeeViewModel.Employee = _employeeListViewModel.Employee;
+                ActivateItem(_deleteEmployeeViewModel);
+            }
+            else if(message.state == 2)
+            {
+                _employeeListViewModel.Employee = null;
+                _deleteEmployeeViewModel.Employee = null;
+                _employeeListViewModel.UpdateList();
+                ActivateItem(previouslyActive);
+            }
+            else if(message.state == 0)
+            {
+                ActivateItem(previouslyActive);
+            }
         }
     }
 }

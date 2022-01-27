@@ -34,7 +34,7 @@
 
         <TextBlock Grid.Column="3" Grid.Row="0" FontSize="48">Sprzedaż</TextBlock>
 
-        <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding Product}"  x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3" MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <ListView ItemsSource="{Binding Products}" SelectedItem="{Binding Product}"  x:Name="Products" Grid.Row="1" Grid.Column="1" MinHeight="200" MinWidth="150" Grid.RowSpan="3" MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Nazwa Produktu" DisplayMemberBinding="{Binding NAZWA}" />

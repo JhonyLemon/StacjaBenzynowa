@@ -128,7 +128,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void AddEmployee()
         {
-            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition.ID_STANOWISKA, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
+            DatabaseDataHelper.SetEmployee(EmployeeName, EmployeeSurname, EmployeePosition.ID_STANOWISKA,1, EmployeeLogin, PasswordHashHelper.HashPassword(EmployeePassword));
             EmployeeName = "";
             EmployeeSurname = "";
             EmployeePosition = null;

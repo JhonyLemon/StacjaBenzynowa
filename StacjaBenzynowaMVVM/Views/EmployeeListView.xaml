@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="StacjaBenzynowaMVVM.Views.EmployeeListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:StacjaBenzynowaMVVM.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="3" Grid.Row="0" FontSize="48">Lista pracowników</TextBlock>
+
+        <ListView ItemsSource="{Binding Employees}" SelectedItem="{Binding Employee}"  x:Name="Employees" Grid.Row="1" Grid.Column="3" MinHeight="200" MinWidth="150" Grid.RowSpan="3" MaxHeight="400" ScrollViewer.VerticalScrollBarVisibility="Auto"   Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ID_PRACOWNIKA}" />
+                    <GridViewColumn Header="Imie" DisplayMemberBinding="{Binding IMIE}" />
+                    <GridViewColumn Header="Nazwisko" DisplayMemberBinding="{Binding NAZWISKO}" />
+                    <GridViewColumn Header="Pozycja" DisplayMemberBinding="{Binding POZYCJA}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button  x:Name="DeleteEmployee" Grid.Column="3" Grid.Row="4" Margin="10 10 10 10">Usuń pracownika</Button>
+
+    </Grid>
+</UserControl>

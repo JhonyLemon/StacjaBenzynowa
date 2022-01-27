@@ -74,7 +74,7 @@ namespace StacjaBenzynowa.ViewModels
         public void LogIn()
         {
             Employee= DatabaseDataHelper.GetEmployee(UserName, Password);
-            if (Employee == null || Employee.ID_PRACOWNIKA==0)
+            if (Employee == null || Employee.ID_PRACOWNIKA==0 && Employee.ZATRUDNIONY!=1)
             {
                 ErrorMessage = "Błędny login lub hasło";
             }
