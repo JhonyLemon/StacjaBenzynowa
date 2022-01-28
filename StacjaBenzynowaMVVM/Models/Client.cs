@@ -48,6 +48,15 @@ namespace StacjaBenzynowaMVVM.Models
             set { _points = value; }
         }
 
+        private int _telephoneNumber;
+
+        public int NUMER_TELEFONU
+        {
+            get { return _points; }
+            set { _points = value; }
+        }
+
+
         public double RABAT { get; set; }
 
         public string GetClientID()

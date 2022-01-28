@@ -142,12 +142,14 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get
             {
+                if (Client == null)
+                    Client = "";
                 Message = "";
                 bool check = true;
-                if (Client!=null)
+                if (Client!="")
                 {
                     ClientClass = DatabaseDataHelper.GetClient(Client);
-                    if (ClientClass != null)
+                    if (ClientClass.ID_KLIENTA != 0)
                     {
                         RecalculatePrice();
                         Message = "Pomyslnie wybrano klienta";
@@ -157,6 +159,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 }
                 else if(ClientClass!=null)
                 {
+                    Message = "";
                     ClientClass = null;
                     RecalculatePrice();
                 }

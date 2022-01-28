@@ -237,6 +237,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             _saleViewModel.CartItems.Clear();
             _saleViewModel.RemoveZeroItems();
+            _checkOutViewModel.Message = "";
             ActivateItem(_saleViewModel);
         }
         public void Handle(AddNotificationsOnEvent message)
