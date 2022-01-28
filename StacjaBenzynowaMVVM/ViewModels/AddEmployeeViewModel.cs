@@ -109,7 +109,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
             get { return _employeeSurname; }
             set 
             {
-                _employeeSurname = value;
+                if(value.Length<=20)
+                    _employeeSurname = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
                 NotifyOfPropertyChange(() => EmployeeSurname);
             }
