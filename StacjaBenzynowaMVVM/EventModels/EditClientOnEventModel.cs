@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace StacjaBenzynowaMVVM.EventModels
 {
-    class DeleteEmployeeOnEventModel
+    class EditClientOnEventModel
     {
         public int State { get; set; }
-        public DeleteEmployeeOnEventModel(int state)
+        public EditClientOnEventModel(int state)
         {
             State = state;
         }

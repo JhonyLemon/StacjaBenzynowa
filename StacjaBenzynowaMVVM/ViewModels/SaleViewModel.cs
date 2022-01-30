@@ -82,7 +82,8 @@ namespace StacjaBenzynowa.ViewModels
             get { return _ammount; }
             set
             {
-                _ammount = value;
+                if(value.ToString().Length <= 30)
+                    _ammount = value;
                 NotifyOfPropertyChange(() => Amount);
                 NotifyOfPropertyChange(() => CanAddToCart);
                 NotifyOfPropertyChange(() => CanChangeAmount);

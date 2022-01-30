@@ -37,6 +37,8 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 _employee = value;
                 NotifyOfPropertyChange(()=>Employee);
                 NotifyOfPropertyChange(()=>CanDeleteEmployee);
+                NotifyOfPropertyChange(() => CanEditEmployee);
+                NotifyOfPropertyChange(() => CanChangePassword);
             }
         }
 
@@ -66,5 +68,35 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _eventAggregator.PublishOnUIThread(new DeleteEmployeeOnEventModel(1));
         }
 
+        public bool CanEditEmployee
+        {
+            get
+            {
+                bool check = false;
+                if (Employee != null && Employee.ID_PRACOWNIKA != employee.ID_PRACOWNIKA)
+                    check = true;
+                return check;
+            }
+        }
+
+        public void EditEmployee()
+        {
+            _eventAggregator.PublishOnUIThread(new EditEmployeeOnEventModel(1));
+        }
+
+        public bool CanChangePassword
+        {
+            get
+            {
+                bool check = false;
+                if (Employee != null && Employee.ID_PRACOWNIKA != employee.ID_PRACOWNIKA)
+                    check = true;
+                return check;
+            }
+        }
+        public void ChangePassword()
+        {
+            _eventAggregator.PublishOnUIThread(new ChangePasswordOnEventModel(1));
+        }
     }
 }

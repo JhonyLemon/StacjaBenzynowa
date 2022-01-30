@@ -21,6 +21,7 @@
             <MenuItem Header="Wyloguj" x:Name="Logout"/>
             <MenuItem Header="Dodaj klienta" x:Name="AddClient"  Visibility="{Binding Path=AddClientVisibility,Mode=OneWay}"/>
             <MenuItem Header="Dodaj pracownika" x:Name="AddEmployee"  Visibility="{Binding Path=AddEmployeeVisibility,Mode=OneWay}"/>
+            <MenuItem Header="Lista klientow" x:Name="ClientList"  Visibility="{Binding Path=AddClientVisibility,Mode=OneWay}"/>
             <MenuItem Header="Lista pracownikow" x:Name="EmployeeList"  Visibility="{Binding Path=AddEmployeeVisibility,Mode=OneWay}"/>
             <MenuItem Header="Powiadomienia" x:Name="Notifications" HorizontalAlignment="Right" Foreground="{Binding Path=NotificationColor, Mode=OneWay}"></MenuItem>
         </Menu>

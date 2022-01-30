@@ -47,15 +47,15 @@
 
         <StackPanel Grid.Column="4" Grid.Row="1">
             <TextBlock  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Nazwa:</TextBlock>
-            <TextBox x:Name="Name" Margin="0 10 0 0"></TextBox>
+            <TextBox x:Name="Name" MaxLength="40" Margin="0 10 0 0"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="4" Grid.Row="2">
             <TextBlock  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Ilość:</TextBlock>
-            <TextBox x:Name="Amount" Margin="0 10 0 0"></TextBox>
+            <TextBox x:Name="Amount" MaxLength="30" Margin="0 10 0 0"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="4" Grid.Row="3">
             <TextBlock  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Cena:</TextBlock>
-            <TextBox x:Name="Price" Margin="0 10 0 0"></TextBox>
+            <TextBox x:Name="Price" MaxLength="30" Margin="0 10 0 0"></TextBox>
         </StackPanel>
         <StackPanel Grid.Column="4" Grid.Row="4">
             <TextBlock  FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Data ważności:</TextBlock>

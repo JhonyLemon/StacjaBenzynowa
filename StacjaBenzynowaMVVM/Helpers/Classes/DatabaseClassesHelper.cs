@@ -196,14 +196,14 @@ namespace StacjaBenzynowaMVVM.Helpers
         //    return Suppliers;
         //}
 
-        public static int GetClientPoints(List<Dictionary<string, object>> data)
+        public static double GetClientPoints(List<Dictionary<string, object>> data)
         {
 
-            int points = 0;
+            double points = 0;
             if (data.Count != 0)
             {
                 if ((string)data[0]["PUNKTY"] != "")
-                    points = Convert.ToInt32(data[0]["PUNKTY"]);
+                    points = Convert.ToDouble(data[0]["PUNKTY"]);
             }
             return points;
         }

@@ -72,7 +72,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get { return _employeePassword; }
             set 
-            { 
+            {
                 _employeePassword = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
                 NotifyOfPropertyChange(() => EmployeePassword);
@@ -96,7 +96,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get { return _employeeLogin; }
             set 
-            { 
+            {
                 _employeeLogin = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
                 NotifyOfPropertyChange(() => EmployeeLogin);
@@ -109,8 +109,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             get { return _employeeSurname; }
             set 
             {
-                if(value.Length<=20)
-                    _employeeSurname = value;
+                _employeeSurname = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
                 NotifyOfPropertyChange(() => EmployeeSurname);
             }
@@ -120,7 +119,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             get { return _employeeName; }
             set 
-            { 
+            {
                 _employeeName = value;
                 NotifyOfPropertyChange(() => CanAddEmployee);
                 NotifyOfPropertyChange(() => EmployeeName);

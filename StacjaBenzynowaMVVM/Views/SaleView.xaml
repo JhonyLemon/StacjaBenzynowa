@@ -55,7 +55,7 @@
         </ListView>
 
         <TextBlock Grid.Column="3" Grid.Row="4" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" >Ilość:</TextBlock>
-        <TextBox x:Name="Amount" Grid.Row="5" Grid.Column="3" Margin="10 10 10 0"></TextBox>
+        <TextBox x:Name="Amount" MaxLength="30" Grid.Row="5" Grid.Column="3" Margin="10 10 10 0"></TextBox>
         <Button  x:Name="AddToCart" Grid.Column="1" Grid.Row="6" Margin="10 10 10 10">Dodaj</Button>
         <Button  x:Name="DeleteFromCart" Grid.Column="3" Grid.Row="6" Margin="10 10 10 10">Usuń</Button>
         <Button  x:Name="ChangeAmount" Grid.Column="4" Grid.Row="6" Margin="10 10 10 10">Zmień ilość</Button>

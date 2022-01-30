@@ -1,42 +1,38 @@
 ﻿using Caliburn.Micro;
-using System;
 using StacjaBenzynowaMVVM.EventModels;
 using StacjaBenzynowaMVVM.Helpers.Classes;
 using StacjaBenzynowaMVVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace StacjaBenzynowa.ViewModels
+namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class AddClientViewModel : Screen
+    class EditClientViewModel : Screen
+
     {
-        private string _clientName = "";
-        private string _clientSurname = "";
-        private string _clientNIP = "";
+        private Client _client;
+        private string _clientName;
+        private string _clientSurname;
+        private string _clientNIP;
+        private string _clientTelephoneNumber;
         private string _message;
         private Brush _messageColor;
-        private string _clientTelephoneNumber = "";
+        private IEventAggregator _eventAggregator;
 
-        public string ClientTelephoneNumber
+        public EditClientViewModel(IEventAggregator eventAggregator)
         {
-            get { return _clientTelephoneNumber; }
-            set 
-            {
-                _clientTelephoneNumber = value;
-                NotifyOfPropertyChange(() => ClientTelephoneNumber);
-                NotifyOfPropertyChange(() => CanAddClient);
-            }
+            _eventAggregator = eventAggregator;
         }
-
         public string Message
         {
             get { return _message; }
-            set 
-            { 
+            set
+            {
                 _message = value;
                 NotifyOfPropertyChange(() => Message);
             }
@@ -52,14 +48,34 @@ namespace StacjaBenzynowa.ViewModels
             }
         }
 
+        public Client Client
+        {
+            get { return _client; }
+            set
+            {
+                _client = value;
+            }
+        }
+
+        public string ClientTelephoneNumber
+        {
+            get { return _clientTelephoneNumber; }
+            set
+            {
+                _clientTelephoneNumber = value;
+                NotifyOfPropertyChange(() => ClientTelephoneNumber);
+                NotifyOfPropertyChange(() => CanEditClient);
+            }
+        }
+
         public string ClientNIP
         {
             get { return _clientNIP; }
-            set 
+            set
             {
                 _clientNIP = value;
                 NotifyOfPropertyChange(() => ClientNIP);
-                NotifyOfPropertyChange(() => CanAddClient);
+                NotifyOfPropertyChange(() => CanEditClient);
             }
         }
 
@@ -67,11 +83,11 @@ namespace StacjaBenzynowa.ViewModels
         public string ClientName
         {
             get { return _clientName; }
-            set 
+            set
             {
                 _clientName = value;
                 NotifyOfPropertyChange(() => ClientName);
-                NotifyOfPropertyChange(() => CanAddClient);
+                NotifyOfPropertyChange(() => CanEditClient);
             }
         }
 
@@ -82,13 +98,13 @@ namespace StacjaBenzynowa.ViewModels
             {
                 _clientSurname = value;
                 NotifyOfPropertyChange(() => ClientSurname);
-                NotifyOfPropertyChange(() => CanAddClient);
+                NotifyOfPropertyChange(() => CanEditClient);
             }
         }
-
-        public bool CanAddClient
+        public bool CanEditClient
         {
-            get{
+            get
+            {
                 Message = "";
                 if (!CheckName() || !CheckSurname() || !CheckNIP() || !CheckTelephoneNumber())
                     return false;
@@ -96,46 +112,60 @@ namespace StacjaBenzynowa.ViewModels
             }
         }
 
-        public void AddClient()
+        public void EditClient()
         {
             Client temp = DatabaseDataHelper.GetClientNIP(ClientNIP);
             if(temp.ID_KLIENTA != 0)
             {
                 MessageColor = Brushes.Red;
-                Message = "Istnieje już klient z podanym numerem NIP";
+                Message = "Ten numer NIP jest przypisany do innego klienta";
             }
-            else if(DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP, ClientTelephoneNumber, 1) == 1)
+            else
             {
-                ClientName = "";
-                ClientSurname = "";
-                ClientNIP = "";
-                ClientTelephoneNumber = "";
-                MessageColor = Brushes.Green;
-                Message = "Klient zostal dodany do bazy danych";
+                Client.IMIE = ClientName;
+                Client.NAZWISKO = ClientSurname;
+                Client.NIP = ClientNIP;
+                Client.NUMER_TELEFONU = ClientTelephoneNumber;
+                Client.AKTYWNY = 1;
+                DatabaseDataHelper.UpdateClient(Client);
+                _eventAggregator.PublishOnUIThread(new EditClientOnEventModel(2));
             }
+        }
+
+        public void Return()
+        {
+            _eventAggregator.PublishOnUIThread(new EditClientOnEventModel(0));
         }
 
         public bool CheckName()
         {
-            if (Regex.IsMatch(ClientName, @"^[0-9]+$"))
+            if (ClientName == null)
+                ClientName = "";
+            else if  (Regex.IsMatch(ClientName, @"^[0-9]+$"))
                 return false;
             return true;
         }
 
         public bool CheckSurname()
         {
-            if (Regex.IsMatch(ClientSurname, @"^[0-9]+$"))
+            if (ClientSurname == null)
+                ClientSurname = "";
+            else if (Regex.IsMatch(ClientSurname, @"^[0-9]+$"))
                 return false;
             return true;
         }
 
         public bool CheckNIP()
         {
+            if (ClientNIP == null)
+            {
+                ClientNIP = "";
+            }
             if (ClientNIP.Length == 0)
             {
                 return true;
             }
-            else if(ClientNIP.Length == 10)
+            else if (ClientNIP.Length == 10)
             {
                 if (Regex.IsMatch(ClientNIP, @"^[0-9]+$"))
                     return true;
@@ -145,14 +175,14 @@ namespace StacjaBenzynowa.ViewModels
 
         public bool CheckTelephoneNumber()
         {
+            if (ClientTelephoneNumber == null)
+                ClientTelephoneNumber = "";
             if (ClientTelephoneNumber.Length == 9)
             {
                 if (Regex.IsMatch(ClientTelephoneNumber, @"^[0-9]+$"))
                     return true;
-            }    
-
+            }
             return false;
         }
-
     }
 }

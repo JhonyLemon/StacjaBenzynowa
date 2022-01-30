@@ -41,7 +41,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 (
                     DataBaseAccess.GetImportedData
                     (
-                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,Z.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY LEFT OUTER JOIN STANOWISKA Z ON PRACOWNICY.ID_STANOWISKA=Z.ID_STANOWISKA WHERE ZATRUDNIONY==1",
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,LOGIN,Z.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY LEFT OUTER JOIN STANOWISKA Z ON PRACOWNICY.ID_STANOWISKA=Z.ID_STANOWISKA WHERE ZATRUDNIONY==1",
                         new List<KeyValuePair<KeyValuePair<string, string>, string>>
                         {
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
@@ -49,6 +49,26 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
                             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN",""),"")
+                        }
+                    )
+                );
+        }
+
+        public static ObservableCollection<Client> GetClients()
+        {
+            return DatabaseClassesHelper.GetModels<Client>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM KLIENCI WHERE AKTYWNY==1",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER_TELEFONU",""),""),
                         }
                     )
                 );
@@ -79,13 +99,35 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             return client;
         }
 
-        public static int SetClient(string name, string surname, string nip)
+        public static Client GetClientNIP(string nip)
+        {
+            return DatabaseClassesHelper.GetModel<Client>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM KLIENCI WHERE NIP=@nip",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP","@nip"), nip),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER_TELEFONU",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("AKTYWNY",""),"")
+                        }
+                    )
+               );
+        }
+
+        public static int SetClient(string name, string surname, string nip, string phone_number, int active)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), name),
             new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), surname),
-            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), nip)
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), nip),
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER_TELEFONU", "@numer_telefonu"), phone_number),
+            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("AKTYWNY", "@aktywny"), active.ToString())
             };
             KeyValuePair<string, string> parameter = InsertParametersToString(parameters);
             return DataBaseAccess.SetData("INSERT INTO KLIENCI (" + parameter.Key + ") VALUES (" + parameter.Value + ")", parameters);
@@ -205,10 +247,37 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), employee.NAZWISKO),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_STANOWISKA", "@pozycja"), employee.POZYCJA),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY", "@zatrudniony"), employee.ZATRUDNIONY.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN", "@login"), employee.LOGIN),
             };
             string parameter = UpdateParametersToString(parameters);
             parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA", "@id"), employee.ID_PRACOWNIKA.ToString()));
             return DataBaseAccess.SetData("UPDATE PRACOWNICY SET "+parameter+ " WHERE ID_PRACOWNIKA=@id", parameters);
+        }
+        
+        public static int UpdateEmployeePassword(string password, string id)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO", "@haslo"), PasswordHashHelper.HashPassword(password))
+            };
+            string parameter = UpdateParametersToString(parameters);
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA", "@id"), id));
+            return DataBaseAccess.SetData("UPDATE PRACOWNICY SET " + parameter + " WHERE ID_PRACOWNIKA=@id", parameters);
+        }
+
+        public static int UpdateClient(Client client)
+        {
+            List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>
+            {
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE", "@imie"), client.IMIE),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO", "@nazwisko"), client.NAZWISKO),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP", "@nip"), client.NIP),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER_TELEFONU", "@numer_telefonu"), client.NUMER_TELEFONU),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("AKTYWNY", "@aktywny"), client.AKTYWNY.ToString())
+            };
+            string parameter = UpdateParametersToString(parameters);
+            parameters.Add(new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id"), client.ID_KLIENTA.ToString()));
+            return DataBaseAccess.SetData("UPDATE KLIENCI SET " + parameter + " WHERE ID_KLIENTA=@id", parameters);
         }
 
         public static int SetExpiredProducts(List<Product> products)
@@ -274,6 +343,26 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                );
         }
 
+        public static Employee GetEmployeePassword(string password)
+        {
+            return DatabaseClassesHelper.GetModel<Employee>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT ID_PRACOWNIKA,IMIE,NAZWISKO,S.STANOWISKO AS POZYCJA,ZATRUDNIONY FROM PRACOWNICY P LEFT OUTER JOIN STANOWISKA S ON P.ID_STANOWISKA=S.ID_STANOWISKA WHERE HAslo=@haslo",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("POZYCJA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ZATRUDNIONY",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("LOGIN","@login"),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("HASLO","@haslo"), PasswordHashHelper.HashPassword(password))
+                        }
+                    )
+               );
+        }
 
         public static ObservableCollection<Supplier> GetSuppliers()
         {

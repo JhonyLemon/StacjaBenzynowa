@@ -80,9 +80,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventModels\AddNotificationsOnEvent.cs" />
+    <Compile Include="EventModels\ChangePasswordOnEventModel.cs" />
     <Compile Include="EventModels\ConfirmDeliveryOnEventModel.cs" />
     <Compile Include="EventModels\ConfirmSaleOnEventModel.cs" />
+    <Compile Include="EventModels\DeleteClientOnEventModel.cs" />
     <Compile Include="EventModels\DeleteEmployeeOnEventModel.cs" />
+    <Compile Include="EventModels\EditClientOnEventModel.cs" />
+    <Compile Include="EventModels\EditEmployeeOnEventModel.cs" />
     <Compile Include="EventModels\LogOnEvent.cs" />
     <Compile Include="EventModels\LogOutOnEvent.cs" />
     <Compile Include="EventModels\NotificationCheckOnEvent.cs" />
@@ -103,9 +107,14 @@
     <Compile Include="ViewModels\AddClientViewModel.cs" />
     <Compile Include="ViewModels\AddEmployeeViewModel.cs" />
     <Compile Include="ViewModels\AddSupplierViewModel.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\CheckOutViewModel.cs" />
+    <Compile Include="ViewModels\ClientListViewModel.cs" />
+    <Compile Include="ViewModels\DeleteClientViewModel.cs" />
     <Compile Include="ViewModels\DeleteEmployeeViewModel.cs" />
     <Compile Include="ViewModels\DeliveriesViewModel.cs" />
+    <Compile Include="ViewModels\EditClientViewModel.cs" />
+    <Compile Include="ViewModels\EditEmployeeViewModel.cs" />
     <Compile Include="ViewModels\EmployeeListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\LogoutViewModel.cs" />
@@ -121,14 +130,29 @@
     <Compile Include="Views\AddSupplierView.xaml.cs">
       <DependentUpon>AddSupplierView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChangePasswordView.xaml.cs">
+      <DependentUpon>ChangePasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckOutView.xaml.cs">
       <DependentUpon>CheckOutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ClientListView.xaml.cs">
+      <DependentUpon>ClientListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DeleteClientView.xaml.cs">
+      <DependentUpon>DeleteClientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeleteEmployeeView.xaml.cs">
       <DependentUpon>DeleteEmployeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeliveriesView.xaml.cs">
       <DependentUpon>DeliveriesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditClientView.xaml.cs">
+      <DependentUpon>EditClientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditEmployeeView.xaml.cs">
+      <DependentUpon>EditEmployeeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EmployeeListView.xaml.cs">
       <DependentUpon>EmployeeListView.xaml</DependentUpon>
@@ -194,7 +218,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ChangePasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CheckOutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeleteClientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,6 +241,14 @@
     <Page Include="Views\DeliveriesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditClientView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditEmployeeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EmployeeListView.xaml">
       <SubType>Designer</SubType>

@@ -46,6 +46,13 @@ namespace StacjaBenzynowaMVVM.Models
             set { _employed = value; }
         }
 
+        private string _login;
+        public string LOGIN
+        {
+            get { return _login; }
+            set { _login = value; }
+        }
+        
         public Employee()
         {
         }

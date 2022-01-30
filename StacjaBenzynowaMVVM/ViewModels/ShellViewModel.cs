@@ -14,7 +14,7 @@ using System.Windows.Media;
 
 namespace StacjaBenzynowaMVVM.ViewModels
 {
-    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSaleOnEventModel>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>, IHandle<DeleteEmployeeOnEventModel>
+    class ShellViewModel:Conductor<object>,IHandle<LogOnEvent>, IHandle<LogOutOnEvent>, IHandle<ReturnOnEvent>, IHandle<ConfirmSaleOnEventModel>,IHandle<SoldOnEvent>,IHandle<AddNotificationsOnEvent>,IHandle<UpdateProductsOnEvent>,IHandle<UpdateSuppliersOnEvent>,IHandle<NotificationCheckOnEvent>, IHandle<DeleteEmployeeOnEventModel>, IHandle<DeleteClientOnEventModel>, IHandle<EditClientOnEventModel>, IHandle<EditEmployeeOnEventModel>, IHandle<ChangePasswordOnEventModel>
     {
 
         private DispatcherTimer _expirationDateChecker = new DispatcherTimer();
@@ -34,9 +34,14 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private NotificationsViewModel _notificationsViewModel;
         private DeleteEmployeeViewModel _deleteEmployeeViewModel;
         private EmployeeListViewModel _employeeListViewModel;
+        private ClientListViewModel _clientListViewModel;
+        private DeleteClientViewModel _deleteClientViewModel;
+        private EditClientViewModel _editClientViewModel;
+        private EditEmployeeViewModel _editEmployeeViewModel;
+        private ChangePasswordViewModel _changePasswordViewModel;
         private IEventAggregator _eventAggregator;
         private Screen previouslyActive;
-        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel, DeleteEmployeeViewModel deleteEmployeeViewModel, EmployeeListViewModel employeeListViewModel)
+        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel, DeleteEmployeeViewModel deleteEmployeeViewModel, EmployeeListViewModel employeeListViewModel, ClientListViewModel clientListViewModel, DeleteClientViewModel deleteClientViewModel, EditClientViewModel editClientViewModel, EditEmployeeViewModel editEmployeeViewModel, ChangePasswordViewModel changePasswordViewModel)
         {
             _loginViewModel = loginViewModel;
             _eventAggregator = eventAggregator;
@@ -50,6 +55,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _notificationsViewModel = notificationsViewModel;
             _deleteEmployeeViewModel = deleteEmployeeViewModel;
             _employeeListViewModel = employeeListViewModel;
+            _clientListViewModel = clientListViewModel;
+            _deleteClientViewModel = deleteClientViewModel;
+            _editClientViewModel = editClientViewModel;
+            _editEmployeeViewModel = editEmployeeViewModel;
+            _changePasswordViewModel = changePasswordViewModel;
             _expirationDateChecker.Interval = TimeSpan.FromHours(1);
             _expirationDateChecker.Tick += _dispatcherTimer_Tick;
             _eventAggregator.Subscribe(this);
@@ -197,8 +207,17 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             previouslyActive = (Screen)ActiveItem;
             _employeeListViewModel.employee = _loginViewModel.Employee;
+            _employeeListViewModel.Employee = null;
             _employeeListViewModel.UpdateList();
             ActivateItem(_employeeListViewModel);
+        }
+
+        public void ClientList()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            _clientListViewModel.Client = null;
+            _clientListViewModel.UpdateList();
+            ActivateItem(_clientListViewModel);
         }
 
         public void AddEmployee()
@@ -262,20 +281,112 @@ namespace StacjaBenzynowaMVVM.ViewModels
 
         public void Handle(DeleteEmployeeOnEventModel message)
         {
-            if (message.state == 1)
+            if (message.State == 1)
             {
                 previouslyActive = (Screen)ActiveItem;
                 _deleteEmployeeViewModel.Employee = _employeeListViewModel.Employee;
                 ActivateItem(_deleteEmployeeViewModel);
             }
-            else if(message.state == 2)
+            else if(message.State == 2)
             {
                 _employeeListViewModel.Employee = null;
                 _deleteEmployeeViewModel.Employee = null;
                 _employeeListViewModel.UpdateList();
                 ActivateItem(previouslyActive);
             }
-            else if(message.state == 0)
+            else if(message.State == 0)
+            {
+                ActivateItem(previouslyActive);
+            }
+        }
+
+        public void Handle(DeleteClientOnEventModel message)
+        {
+            if(message.State == 1)
+            {
+                previouslyActive = (Screen)ActiveItem;
+                _deleteClientViewModel.Client = _clientListViewModel.Client;
+                ActivateItem(_deleteClientViewModel);
+            }
+            else if(message.State == 2)
+            {
+                _clientListViewModel.Client = null;
+                _deleteClientViewModel.Client = null;
+                _clientListViewModel.UpdateList();
+                ActivateItem(previouslyActive);
+            }
+            else if(message.State == 0)
+            {
+                ActivateItem(previouslyActive);
+            }
+        }
+
+        public void Handle(EditEmployeeOnEventModel message)
+        {
+            if(message.State == 1)
+            {
+                previouslyActive = (Screen)ActiveItem;
+                _editEmployeeViewModel.Employee = _employeeListViewModel.Employee;
+                _editEmployeeViewModel.EmployeeName = _employeeListViewModel.Employee.IMIE;
+                _editEmployeeViewModel.EmployeeSurname = _employeeListViewModel.Employee.NAZWISKO;
+                _editEmployeeViewModel.EmployeeLogin = _employeeListViewModel.Employee.LOGIN;
+                ActivateItem(_editEmployeeViewModel);
+            }
+            if(message.State == 2)
+            {
+                _employeeListViewModel.Employee = null;
+                _editEmployeeViewModel.Employee = null;
+                _editEmployeeViewModel.EmployeePosition = null;
+                _employeeListViewModel.UpdateList();
+                ActivateItem(previouslyActive);
+            }
+            if(message.State == 0)
+            {
+                ActivateItem(previouslyActive);
+            }
+        }
+
+        public void Handle(EditClientOnEventModel message)
+        {
+            if (message.State == 1)
+            {
+                previouslyActive = (Screen)ActiveItem;
+                _editClientViewModel.Client = _clientListViewModel.Client;
+                _editClientViewModel.ClientName = _clientListViewModel.Client.IMIE;
+                _editClientViewModel.ClientSurname = _clientListViewModel.Client.NAZWISKO;
+                _editClientViewModel.ClientNIP = _clientListViewModel.Client.NIP;
+                _editClientViewModel.ClientTelephoneNumber = _clientListViewModel.Client.NUMER_TELEFONU;
+                ActivateItem(_editClientViewModel);
+            }
+            else if (message.State == 2)
+            {
+                _clientListViewModel.Client = null;
+                _editClientViewModel.Client = null;
+                _clientListViewModel.UpdateList();
+                ActivateItem(previouslyActive);
+            }
+            else if (message.State == 0)
+            {
+                ActivateItem(previouslyActive);
+            }
+        }
+
+        public void Handle(ChangePasswordOnEventModel message)
+        {
+            if(message.State == 1)
+            {
+                previouslyActive = (Screen)ActiveItem;
+                _changePasswordViewModel.Employee = _employeeListViewModel.Employee;
+                ActivateItem(_changePasswordViewModel);
+            }
+            else if(message.State == 2)
+            {
+                _clientListViewModel.Client = null;
+                _editClientViewModel.Client = null;
+                _clientListViewModel.UpdateList();
+                ActivateItem(previouslyActive);
+            }
+            else if(message.State == 0)
             {
                 ActivateItem(previouslyActive);
             }
