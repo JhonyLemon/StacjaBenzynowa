@@ -115,13 +115,58 @@ namespace StacjaBenzynowaMVVM.ViewModels
         public void EditClient()
         {
             Client temp = DatabaseDataHelper.GetClientNIP(ClientNIP);
-            if(temp.ID_KLIENTA != 0)
+            Client temp1 = DatabaseDataHelper.GetClientPhone(ClientTelephoneNumber);
+            if (ClientNIP.Length != 0)
             {
-                MessageColor = Brushes.Red;
-                Message = "Ten numer NIP jest przypisany do innego klienta";
+                if (temp.ID_KLIENTA != 0)
+                {
+                    if (temp.ID_KLIENTA != Client.ID_KLIENTA)
+                    {
+                        MessageColor = Brushes.Red;
+                        Message = "Istnieje już klient z podanym numerem NIP";
+                    }
+                    else
+                    {
+                        AddToBase();
+                    }
+                }
+                else
+                {
+                    AddToBase();
+                }
+            }
+            else if(ClientTelephoneNumber.Length != 0)
+            {
+                if (temp1.ID_KLIENTA != 0)
+                {
+                    if(temp1.ID_KLIENTA != Client.ID_KLIENTA)
+                    {
+                        MessageColor = Brushes.Red;
+                        Message = "Istnieje już klient z podanym numerem telefonu";
+                    }
+                    else
+                    {
+                        AddToBase();
+                    }
+                }
+                else
+                {
+                    AddToBase();
+                }
             }
             else
             {
+                AddToBase();
+            }
+        }
+
+        public void Return()
+        {
+            _eventAggregator.PublishOnUIThread(new EditClientOnEventModel(0));
+        }
+
+        public void AddToBase()
+        {
                 Client.IMIE = ClientName;
                 Client.NAZWISKO = ClientSurname;
                 Client.NIP = ClientNIP;
@@ -129,12 +174,6 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 Client.AKTYWNY = 1;
                 DatabaseDataHelper.UpdateClient(Client);
                 _eventAggregator.PublishOnUIThread(new EditClientOnEventModel(2));
-            }
-        }
-
-        public void Return()
-        {
-            _eventAggregator.PublishOnUIThread(new EditClientOnEventModel(0));
         }
 
         public bool CheckName()

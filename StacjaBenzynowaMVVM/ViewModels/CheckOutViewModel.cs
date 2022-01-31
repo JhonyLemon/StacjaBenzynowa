@@ -148,7 +148,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 bool check = true;
                 if (Client!="")
                 {
-                    ClientClass = DatabaseDataHelper.GetClient(Client);
+                    ClientClass = DatabaseDataHelper.GetClientPhone(Client);
                     if (ClientClass.ID_KLIENTA != 0)
                     {
                         RecalculatePrice();

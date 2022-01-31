@@ -119,6 +119,26 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                );
         }
 
+        public static Client GetClientPhone(string phoneNumber)
+        {
+            return DatabaseClassesHelper.GetModel<Client>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT * FROM KLIENCI WHERE NUMER_TELEFONU=@numer_telefonu",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWISKO",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NIP",""), ""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER_TELEFONU","@numer_telefonu"),phoneNumber),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("AKTYWNY",""),"")
+                        }
+                    )
+               );
+        }
+
         public static int SetClient(string name, string surname, string nip, string phone_number, int active)
         {
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameters = new List<KeyValuePair<KeyValuePair<string, string>, string>>

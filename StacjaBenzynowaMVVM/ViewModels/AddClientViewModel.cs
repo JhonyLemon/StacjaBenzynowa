@@ -99,10 +99,22 @@ namespace StacjaBenzynowa.ViewModels
         public void AddClient()
         {
             Client temp = DatabaseDataHelper.GetClientNIP(ClientNIP);
-            if(temp.ID_KLIENTA != 0)
+            Client temp1 = DatabaseDataHelper.GetClientPhone(ClientTelephoneNumber);
+            if (ClientNIP.Length != 0)
             {
-                MessageColor = Brushes.Red;
-                Message = "Istnieje już klient z podanym numerem NIP";
+                if (temp.ID_KLIENTA != 0)
+                {
+                    MessageColor = Brushes.Red;
+                    Message = "Istnieje już klient z podanym numerem NIP";
+                }
+            }
+            else if (ClientTelephoneNumber.Length != 0)
+            {
+                if (temp1.ID_KLIENTA != 0)
+                {
+                    MessageColor = Brushes.Red;
+                    Message = "Istnieje już klient z podanym numerem telefonu";
+                }
             }
             else if(DatabaseDataHelper.SetClient(ClientName, ClientSurname, ClientNIP, ClientTelephoneNumber, 1) == 1)
             {
@@ -150,7 +162,6 @@ namespace StacjaBenzynowa.ViewModels
                 if (Regex.IsMatch(ClientTelephoneNumber, @"^[0-9]+$"))
                     return true;
             }    
-
             return false;
         }
 
