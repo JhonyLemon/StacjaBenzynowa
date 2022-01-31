@@ -39,9 +39,10 @@ namespace StacjaBenzynowaMVVM.ViewModels
         private EditClientViewModel _editClientViewModel;
         private EditEmployeeViewModel _editEmployeeViewModel;
         private ChangePasswordViewModel _changePasswordViewModel;
+        private SaleListViewModel _saleListViewModel;
         private IEventAggregator _eventAggregator;
         private Screen previouslyActive;
-        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel, DeleteEmployeeViewModel deleteEmployeeViewModel, EmployeeListViewModel employeeListViewModel, ClientListViewModel clientListViewModel, DeleteClientViewModel deleteClientViewModel, EditClientViewModel editClientViewModel, EditEmployeeViewModel editEmployeeViewModel, ChangePasswordViewModel changePasswordViewModel)
+        public ShellViewModel(LoginViewModel loginViewModel, IEventAggregator eventAggregator,SaleViewModel saleViewModel,AddClientViewModel addClientViewModel, LogoutViewModel logoutViewModel, DeliveriesViewModel deliveriesViewModel,CheckOutViewModel checkOutViewModel, AddSupplierViewModel addSupplierViewModel, AddEmployeeViewModel addEmployeeViewModel, NotificationsViewModel notificationsViewModel, DeleteEmployeeViewModel deleteEmployeeViewModel, EmployeeListViewModel employeeListViewModel, ClientListViewModel clientListViewModel, DeleteClientViewModel deleteClientViewModel, EditClientViewModel editClientViewModel, EditEmployeeViewModel editEmployeeViewModel, ChangePasswordViewModel changePasswordViewModel, SaleListViewModel saleListViewModel)
         {
             _loginViewModel = loginViewModel;
             _eventAggregator = eventAggregator;
@@ -60,6 +61,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
             _editClientViewModel = editClientViewModel;
             _editEmployeeViewModel = editEmployeeViewModel;
             _changePasswordViewModel = changePasswordViewModel;
+            _saleListViewModel = saleListViewModel;
             _expirationDateChecker.Interval = TimeSpan.FromHours(1);
             _expirationDateChecker.Tick += _dispatcherTimer_Tick;
             _eventAggregator.Subscribe(this);
@@ -220,6 +222,13 @@ namespace StacjaBenzynowaMVVM.ViewModels
             ActivateItem(_clientListViewModel);
         }
 
+        public void SaleList()
+        {
+            previouslyActive = (Screen)ActiveItem;
+            _saleListViewModel.UpdateList();
+            _saleListViewModel.SaleDetails = null;
+            ActivateItem(_saleListViewModel);
+        }
         public void AddEmployee()
         {
             previouslyActive = (Screen)ActiveItem;

@@ -155,7 +155,11 @@ namespace StacjaBenzynowaMVVM.ViewModels
                         Message = "Pomyslnie wybrano klienta";
                     }
                     else
+                    {
                         Message = "Bledny identyfikator klienta";
+                        check = false;
+                    }    
+                        
                 }
                 else if(ClientClass!=null)
                 {

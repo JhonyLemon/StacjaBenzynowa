@@ -74,6 +74,42 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
                 );
         }
 
+        public static ObservableCollection<Sale> GetSales()
+        {
+            return DatabaseClassesHelper.GetModels<Sale>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT ID_ZAMOWNIENIA, O.IMIE || ' ' || O.NAZWISKO AS IMIE_KLIENTA, P.IMIE || ' ' || P.NAZWISKO AS IMIE_SPRZEDAWCY, DATA_WYDANIA FROM ZAMOWIENIA Z LEFT OUTER JOIN KLIENCI O ON Z.ID_KLIENTA = O.ID_KLIENTA LEFT OUTER JOIN PRACOWNICY P ON Z.ID_PRACOWNIKA = P.ID_PRACOWNIKA",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_ZAMOWNIENIA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE_KLIENTA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("IMIE_SPRZEDAWCY",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA",""),""),
+                        }
+                    )
+                );
+        }
+
+        public static ObservableCollection<SaleDetails> GetSaleDetails(int id)
+        {
+            return DatabaseClassesHelper.GetModels<SaleDetails>
+                (
+                    DataBaseAccess.GetImportedData
+                    (
+                        "SELECT Z.ID_ZAMOWNIENIA AS NUMER, P.NAZWA, O.ILOSC, O.CENA FROM OPISY_ZAMOWIEN O LEFT OUTER JOIN PRODUKTY P ON O.ID_PRODUKTU = P.ID_PRODUKTU LEFT OUTER JOIN ZAMOWIENIA Z ON O.ID_ZAMOWIENIA = Z.ID_ZAMOWNIENIA WHERE NUMER=@numer",
+                        new List<KeyValuePair<KeyValuePair<string, string>, string>>
+                        {
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NUMER","@numer"),id.ToString()),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("NAZWA",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ILOSC",""),""),
+                            new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("CENA",""),""),
+                        }
+                    )
+                );
+        }
+
         public static Client GetClient(string cardCode)
         {
             Client client=null;
@@ -213,7 +249,7 @@ namespace StacjaBenzynowaMVVM.Helpers.Classes
             List<KeyValuePair<KeyValuePair<string, string>, string>> parameter = new List<KeyValuePair<KeyValuePair<string, string>, string>>
             {
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_PRACOWNIKA","@id_pracownika"),employee.ID_PRACOWNIKA.ToString()),
-                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA","@data"),DateTime.Today.ToString()),
+                new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("DATA_WYDANIA","@data"),DateTime.Now.ToString()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("ID_KLIENTA", "@id_klienta"), client.GetClientID()),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("RABAT", "@rabat"), client.RABAT.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)),
                 new KeyValuePair<KeyValuePair<string, string>, string>(new KeyValuePair<string, string>("PUNKTY", "@punkty"), (price / 100).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))
