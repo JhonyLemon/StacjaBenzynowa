@@ -134,7 +134,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 bool output = false;
 
                 if (EmployeeLogin != null && EmployeeLogin.Length > 0 && EmployeePassword != null && EmployeePassword.Length > 0
-                    && EmployeePosition != null && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z-żŻźŹąĄęĘśŚóÓłŁćĆńŃ]+$") && Regex.IsMatch(EmployeeSurname, @"^[a-zA-Z-żŻźŹąĄęĘśŚóÓłŁćĆńŃ]+$"))
+                    && EmployeePosition != null && CheckName() == true && CheckSurname() == true)
                     output = true;
                 return output;
             }
@@ -160,5 +160,26 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 Message = "Ten login jest już zajęty";
             }
         }
+
+        public bool CheckName()
+        {
+            if (EmployeeName.Length == 0 || EmployeeName.Any(char.IsDigit) == true)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
+        public bool CheckSurname()
+        {
+            if (EmployeeSurname.Length == 0 || EmployeeSurname.Any(char.IsDigit) == true)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
     }
 }

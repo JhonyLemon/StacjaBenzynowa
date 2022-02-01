@@ -180,7 +180,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             if (ClientName == null)
                 ClientName = "";
-            else if  (Regex.IsMatch(ClientName, @"^[0-9]+$"))
+            else if  (ClientName.Length == 0 || ClientName.Any(char.IsDigit) == true)
                 return false;
             return true;
         }
@@ -189,7 +189,7 @@ namespace StacjaBenzynowaMVVM.ViewModels
         {
             if (ClientSurname == null)
                 ClientSurname = "";
-            else if (Regex.IsMatch(ClientSurname, @"^[0-9]+$"))
+            else if (ClientName.Length == 0 || ClientSurname.Any(char.IsDigit) == true)
                 return false;
             return true;
         }

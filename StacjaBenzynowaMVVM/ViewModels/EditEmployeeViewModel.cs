@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -135,6 +136,16 @@ namespace StacjaBenzynowaMVVM.ViewModels
                 MessageColor = Brushes.Red;
                 Message = "Podany login jest już zajęty";
             }
+            else if(CheckName() == false)
+            {
+                MessageColor = Brushes.Red;
+                Message = "Błędne imie";
+            }
+            else if(CheckSurname() == false)
+            {
+                MessageColor = Brushes.Red;
+                Message = "Błędne nazwisko";
+            }
             else 
             {
                 Employee.IMIE = EmployeeName;
@@ -169,6 +180,26 @@ namespace StacjaBenzynowaMVVM.ViewModels
                     return true;
                 }
             }
+        }
+
+        public bool CheckName()
+        {
+            if (EmployeeName.Length == 0 || EmployeeName.Any(char.IsDigit) == true)
+            {
+                return false;
+            }
+            else
+                return true;
+        }
+
+        public bool CheckSurname()
+        {
+            if (EmployeeSurname.Length == 0 || EmployeeSurname.Any(char.IsDigit) == true)
+            {
+                return false;
+            }
+            else
+                return true;
         }
     }
 }

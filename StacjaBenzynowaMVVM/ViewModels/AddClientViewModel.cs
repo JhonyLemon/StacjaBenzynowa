@@ -129,14 +129,18 @@ namespace StacjaBenzynowa.ViewModels
 
         public bool CheckName()
         {
-            if (Regex.IsMatch(ClientName, @"^[0-9]+$"))
+            if (ClientName == null)
+                ClientName = "";
+            else if (ClientName.Length == 0 || ClientName.Any(char.IsDigit) == true)
                 return false;
             return true;
         }
 
         public bool CheckSurname()
         {
-            if (Regex.IsMatch(ClientSurname, @"^[0-9]+$"))
+            if (ClientSurname == null)
+                ClientSurname = "";
+            else if (ClientName.Length == 0 || ClientSurname.Any(char.IsDigit) == true)
                 return false;
             return true;
         }
